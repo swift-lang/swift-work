@@ -26,7 +26,7 @@ line2
 
 a-sh.sh:: Supporting shell script for a-sh.swift
 
-a-tcl.swift:: A working example of file append without the shell by using Tcl code (could use Python, etc., here too)
+a-tcl.swift:: A working example of file append without a shell script by using Tcl code (could use Python, etc., here too)
 +
 ----
 $ swift-t a-tcl.swift
@@ -34,6 +34,9 @@ $ cat example.txt
 line1
 line2
 ----
++
+* local_file_path is the Tcl implementation of Swift's filename() - it extracts the filename from the file variable
+* Tcl exec launches the rest of the line in the shell.  Thus, this is simply the same operation (echo s >> f) as in a-sh.sh
 
 a-seek.swift:: A working example of record-oriented file append by using Tcl code (could use Python, etc., here too)
 +
