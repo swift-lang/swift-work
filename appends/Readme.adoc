@@ -1,0 +1,49 @@
+
+= File append examples
+
+== File index
+
+original.swift:: The original example provided by Heldenbrand
+
+a0.swift:: The original example with a minor file name change to make it runnable by all
++
+----
+$ swift-t a0.swift
+$ cat example.txt 
+line1
+line2
+----
+
+a-sh.swift:: A working example of file append by calling the shell with a Swift app function
++
+----
+$ swift-t a-sh.swift
+appending 'line2' to example.txt
+$ cat example.txt 
+line1
+line2
+----
+
+a-tcl.swift:: A working example of file append without the shell by using Tcl code (could use Python, etc., here too)
++
+----
+$ swift-t a-tcl.swift
+$ cat example.txt 
+line1
+line2
+----
+
+a-seek.swift:: A working example of record-oriented file append by using Tcl code (could use Python, etc., here too)
++
+----
+$ swift-t -p a-seek.swift -n=4
+$ cat example.txt 
+line1
+record 2 : line2 
+record 3 : line3 
+record 4 : line4 
+----
+
+== Notes
+
+Since Swift tasks run concurrently, there could be conflicting accesses at the end of a file when using the append file access mode (fopen(..., "a")).  Also, the order is non-deterministic, which could cause complexities.  Thus, the a-seek.swift example shows how to use an easily calculated offset to give non-conflicting accesses to different parts of the file.
