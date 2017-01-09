@@ -24,7 +24,7 @@ line1
 line2
 ----
 
-* a-sh.sh:: Supporting shell script for a-sh.swift
+a-sh.sh:: Supporting shell script for a-sh.swift
 
 a-tcl.swift:: A working example of file append without the shell by using Tcl code (could use Python, etc., here too)
 +
