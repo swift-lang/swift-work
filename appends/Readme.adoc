@@ -49,3 +49,5 @@ record 4 : line4
 == Notes
 
 Since Swift tasks run concurrently, there could be conflicting accesses at the end of a file when using the append file access mode (fopen(..., "a")).  Also, the order is non-deterministic, which could cause complexities.  Thus, the a-seek.swift example shows how to use an easily calculated offset to give non-conflicting accesses to different parts of the file.
+
+In a-seek.swift, the file is opened, then the file descriptor fd is immediately seeked to position to kilobyte i.  Then a normal puts (print) statement writes the string "line"+i at that position.  The resulting file example.txt is thus sparse (cf. od -c example.txt).
