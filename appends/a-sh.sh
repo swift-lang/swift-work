@@ -1,3 +1,5 @@
 #!/bin/sh
-echo "appending '$2' to $1"
-echo $2 >> $1
+f=$1
+s=$2
+echo "appending '$s' to $f"
+echo $s >> $f
