@@ -1,6 +1,9 @@
 import unix;
 import files;
 import string;
+import sys;
+
+n = string2int(argv("n"));
 
 @dispatch=WORKER
 append(file f, int i, string s) "turbine" "1.0" [
@@ -14,6 +17,6 @@ close $fd
 
 file example <"example.txt">;
 example = write("line1\n");
-foreach i in [2:4] { 
+foreach i in [2:n] {
   append(example, i, "line"+i);
 }
