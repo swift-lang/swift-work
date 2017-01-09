@@ -9,7 +9,7 @@ a0.swift:: The original example with a minor file name change to make it runnabl
 +
 ----
 $ swift-t a0.swift
-$ cat example.txt 
+$ cat example.txt
 line1
 line2
 ----
@@ -19,16 +19,18 @@ a-sh.swift:: A working example of file append by calling the shell with a Swift 
 ----
 $ swift-t a-sh.swift
 appending 'line2' to example.txt
-$ cat example.txt 
+$ cat example.txt
 line1
 line2
 ----
+
+* a-sh.sh:: Supporting shell script for a-sh.swift
 
 a-tcl.swift:: A working example of file append without the shell by using Tcl code (could use Python, etc., here too)
 +
 ----
 $ swift-t a-tcl.swift
-$ cat example.txt 
+$ cat example.txt
 line1
 line2
 ----
@@ -37,11 +39,11 @@ a-seek.swift:: A working example of record-oriented file append by using Tcl cod
 +
 ----
 $ swift-t -p a-seek.swift -n=4
-$ cat example.txt 
+$ cat example.txt
 line1
-record 2 : line2 
-record 3 : line3 
-record 4 : line4 
+record 2 : line2
+record 3 : line3
+record 4 : line4
 ----
 
 == Notes
