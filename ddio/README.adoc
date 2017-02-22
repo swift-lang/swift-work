@@ -8,6 +8,27 @@ Demonstrates how to use dd to buffer output streams
 ----
 $ MB=$(( 1024 *1024 )) ; IBS=$(( 10 * MB )) OBS=$(( 10 * MB ))
 $ ITRNS=1000000 BYTES=1000
+$ OUTPUT=/lustre/beagle2/wozniak/output.txt
+
+# No dd
+$ ./run.sh $ITRNS $BYTES $OUTPUT
+running...
+iterations:   1000000
+bytes/itrn:   1000
+total Mbytes: 953
+writing file: /lustre/beagle2/wozniak/output.txt
+TIME:  23.457
+MBPS:  40.656
+
+# With dd
+$ ./run-dd.sh $IBS $OBS $ITRNS $BYTES $OUTPUT
+running...
+iterations:   1000000
+bytes/itrn:   1000
+total Mbytes: 953
+writing file: fifo
+TIME:  17.030
+MBPS:  56.000
 ----
 
 == Miscellaneous
