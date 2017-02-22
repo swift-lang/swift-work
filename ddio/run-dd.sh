@@ -1,19 +1,38 @@
-#!/bin/sh
+#!/bin/zsh
+set -eu
 
-set -e
+if [[ ${#} != 5 ]]
+then
+  echo "usage: run-dd IBS OBS ITRNS BYTES OUTPUT"
+  exit 1
+fi
 
-echo "compiling..."
-javac FakeWriter.java
-echo "ok\n"
+IBS=$1
+OBS=$2
+ITRNS=$3
+BYTES=$4
+OUTPUT=$5
+
+source ./compile.sh
 
 if [ -e fifo ]
 then
   rm -v fifo
 fi
 
+source ./profile-start.sh
+
 mkfifo fifo
-dd if=fifo of=output.txt &
+
+# Single buffer
+# dd if=fifo ibs=$IBS obs=$OBS of=$OUTPUT &
+
+# Double buffer (faster)
+dd if=fifo ibs=$IBS obs=$OBS | dd ibs=$IBS obs=$OBS of=$OUTPUT &
 
 echo "running..."
-java FakeWriter $* fifo
+java FakeWriter $ITRNS $BYTES fifo
 
+wait
+
+source ./profile-stop.sh

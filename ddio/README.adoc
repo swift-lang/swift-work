@@ -1,0 +1,15 @@
+
+= Run DD
+
+Demonstrates how to use dd to buffer output streams
+
+== Usage
+
+----
+$ MB=$(( 1024 *1024 )) ; IBS=$(( 10 * MB )) OBS=$(( 10 * MB ))
+$ ITRNS=1000000 BYTES=1000
+----
+
+== Miscellaneous
+
+We use ZSH for floating point arithmetic.

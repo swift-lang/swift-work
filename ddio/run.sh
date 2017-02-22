@@ -1,11 +1,21 @@
-#!/bin/sh
+#!/bin/zsh
+set -eu
 
-set -e
+if [[ ${#} != 3 ]]
+then
+  echo "usage: run ITRNS BYTES OUTPUT"
+  exit 1
+fi
 
-echo "compiling..."
-javac FakeWriter.java
-echo "ok\n"
+ITRNS=$1
+BYTES=$2
+OUTPUT=$3
+
+source ./compile.sh
+
+source ./profile-start.sh
 
 echo "running..."
-java FakeWriter $*
+java FakeWriter $ITRNS $BYTES $OUTPUT
 
+source ./profile-stop.sh
