@@ -35,7 +35,6 @@ class FakeWriter
     {
       s = new FileOutputStream(name);
       s.write("Header\n".getBytes());
-      // .flush();
     }
     catch (IOException e)
     {
@@ -44,11 +43,11 @@ class FakeWriter
     }
     return s;
   }
-  
+
   static void fill(byte[] buffer)
   {
     Random R = new Random();
-    R.nextBytes(buffer);    
+    R.nextBytes(buffer);
   }
 
   static void go(int itrns, byte[] buffer, OutputStream s)
