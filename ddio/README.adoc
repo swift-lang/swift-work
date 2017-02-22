@@ -33,4 +33,4 @@ MBPS:  56.000
 
 == Miscellaneous
 
-We use ZSH for floating point arithmetic.
+We use ZSH for floating point arithmetic in the profile information.
