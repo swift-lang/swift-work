@@ -1,5 +1,5 @@
 
 *On Beagle:*
 
-Edit run-hello-beagle.sh to set QUEUE, PROJECT
-Run ./run-hello-beagle.sh
+. Edit run-hello-beagle.sh to set QUEUE, PROJECT
+. Run ./run-hello-beagle.sh
