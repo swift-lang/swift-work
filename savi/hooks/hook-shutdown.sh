@@ -1,2 +1,2 @@
 #!/bin/sh
-echo "HOOK: SHUTDOWN"
+echo "HOOK: SHUTDOWN" $(hostname)

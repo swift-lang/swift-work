@@ -1,2 +1,2 @@
 #!/bin/sh
-echo "HOOK: STARTUP"
+echo "HOOK: STARTUP" $(hostname)
