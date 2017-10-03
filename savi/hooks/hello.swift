@@ -1,3 +1,1 @@
-
-import io;
-printf("HI");
+trace("hello");
