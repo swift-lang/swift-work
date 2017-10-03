@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "TASK             $1"
+echo "ADLB_RANK_SELF   $ADLB_RANK_SELF"
+echo "ADLB_RANK_LEADER $ADLB_RANK_LEADER"
+echo "ADLB_RANK_OFFSET $ADLB_RANK_OFFSET"
+
+GPU=$ADLB_RANK_OFFSET
+
+sleep 2
+echo "TAKING GPU: $GPU"
