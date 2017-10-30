@@ -6,7 +6,6 @@ import io;
 [
 """
 source exit-code.tcl
-set D <<args>>
 set <<exit_code>> [ system [ dict values <<args>> ] ]
 """
  ];  
