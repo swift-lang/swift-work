@@ -1,0 +1,15 @@
+
+exit-code.tcl::
+Contains a Tcl system command that shows how to catch and return the exit code
+
+test.tcl::
+A pure Tcl test for exit-code.tcl
+
+test.swift::
+A Swift test for exit-code.tcl
+
+run-tcl.sh::
+Shell wrapper for test.tcl
+
+run-swift.sh::
+Shell wrapper for test.swift
