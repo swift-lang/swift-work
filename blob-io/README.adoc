@@ -34,4 +34,4 @@ f-3.data 32
 f.data 32
 ----
 
-(If you pull 415730f3 , you will get a bit more logging output about the write.)
+(If you pull https://github.com/swift-lang/swift-t/commit/415730f3c48cbed7d616b0a8ea5ea8b8aac3412a[415730f3] , you will get a bit more logging output about the write.)
