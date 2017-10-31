@@ -5,16 +5,19 @@ run.sh::
 Runs workflow1.swift or workflow2.swift.  Usage:
 +
 ----
-$ ./run.sh <W>
+$ ./run.sh <W> <C>
 ----
 +
-where W is 1 or 2.
+where W is 1 or 2 and C is mcs or beagle .
 
 workflow1.swift::
 Simple loop around a trace() output
 
 workflow2.swift::
 Two-phase workflow with initialization on each node followed by real workflow body.
+
+hosts-*.txt::
+MPI hosts files
 
 == Example
 
