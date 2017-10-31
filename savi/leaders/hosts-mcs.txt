@@ -1,0 +1,4 @@
+stomp
+vanquish
+trounce
+crush
