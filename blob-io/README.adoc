@@ -1,0 +1,37 @@
+
+== File index
+
+run.sh::
+Creates f.data and runs blob-io.swift +
+Make sure turbine is in your PATH
+
+blob-io.swift::
+Makes a copy of f.data, one for each rank in the system
+
+== Example output
+
+As shown, rank 0 reads the blob and stores it at <1> in ADLB memory.
+Then, each rank 0-3 retrieves the blob from ADLB and creates a file.
+TURBINE_LOG is enabled.
+
+----
+blob-io$ ./run.sh   
+[0]    0.000 WORK TYPES: WORK
+...
+[0]    0.011 blob_read: f.data
+[0]    0.011 blob_read: length: 32
+[0]    0.012 store_blob: <1>=[pointer=556aafbacba0 length=32]
+[0]    0.012 retrieve_blob: <1>=[556aafbacba0 32]
+[2]    0.012 retrieve_blob: <1>=[5644cbead990 32]
+[1]    0.012 retrieve_blob: <1>=[5609c9d0b5b0 32]
+[3]    0.012 retrieve_blob: <1>=[558f2a7095b0 32]
+...
+blob-io$ stat -c "%n %s" *.data
+f-0.data 32
+f-1.data 32
+f-2.data 32
+f-3.data 32
+f.data 32
+----
+
+(If you pull 415730f3 , you will get a bit more logging output about the write.)
