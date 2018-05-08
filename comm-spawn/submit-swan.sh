@@ -19,10 +19,13 @@ NODES_CHILD=1
 
 THIS=$( cd $( dirname $0 ) ; /bin/pwd )
 
+export MPICH_DPM_DIR=$THIS/.dpm
+mkdir -pv $MPICH_DPM_DIR
+
 set -x
 qsub -l nodes=$NODES_MAIN,walltime=00:01:00 \
      -j oe \
      -d $THIS \
      -o $OUTPUT \
-     -v NODES_MAIN \
+     -v NODES_MAIN,MPICH_DPM_DIR \
      ./job-swan.sh
