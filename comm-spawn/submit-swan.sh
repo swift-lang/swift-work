@@ -15,17 +15,17 @@ then
 fi
 
 export NODES_MAIN=$1
-NODES_CHILD=1
+export NODES_CHILD=1
+NODES_TOTAL=$((NODES_MAIN + NODES_CHILD))
 
-THIS=$( cd $( dirname $0 ) ; /bin/pwd )
+cd $( dirname $0 )
 
-export MPICH_DPM_DIR=$THIS/.dpm
+export MPICH_DPM_DIR=$(pwd)/.dpm
 mkdir -pv $MPICH_DPM_DIR
 
 set -x
-qsub -l nodes=$NODES_MAIN,walltime=00:01:00 \
+qsub -l nodes=$NODES_TOTAL,walltime=00:01:00 \
      -j oe \
-     -d $THIS \
      -o $OUTPUT \
-     -v NODES_MAIN,MPICH_DPM_DIR \
+     -v NODES_MAIN,NODES_CHILD,MPICH_DPM_DIR \
      ./job-swan.sh
