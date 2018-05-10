@@ -10,9 +10,11 @@ echo NODES_CHILD=$NODES_CHILD
 
 cd $PBS_O_WORKDIR
 
-apmgr pdomain -c mpispawn
+PDOMAIN=pdomain_$$
 
-aprun -p mpidpm \
+apmgr pdomain -c $PDOMAIN
+
+aprun -p $PDOMAIN \
       --pes $NODES_CHILD \
       -e MPICH_VERSION_DISPLAY=1 \
       -e MPICH_DPM_DIR=$MPICH_DPM_DIR \
@@ -20,12 +22,12 @@ aprun -p mpidpm \
 
 sleep 2
 
-aprun -p mpidpm \
+aprun -p $PDOMAIN \
       --pes $NODES_MAIN \
       -e MPICH_VERSION_DISPLAY=1 \
       -e MPICH_DPM_DIR=$MPICH_DPM_DIR \
       ./comm-spawn.x
 
-apmgr pdomain -r mpispawn
+apmgr pdomain -r $PDOMAIN
 
 echo job-swan STOP
