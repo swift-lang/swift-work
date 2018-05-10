@@ -6,4 +6,5 @@ module load gcc
 
 which cc
 
+export CRAY=1
 make CC=$( which cc )

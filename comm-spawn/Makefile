@@ -1,7 +1,14 @@
 
-LDFLAGS = -craympich-dpm
+LDFLAGS :=
 
-all: comm-spawn.x child.x rankpool.x
+PROGRAMS := comm-spawn.x child.x
+
+ifeq (${CRAY},1)
+	LDFLAGS  += -craympich-dpm
+	PROGRAMS += rankpool.x
+endif
+
+all: $(PROGRAMS)
 
 comm-spawn.x: main.c
 	$(CC) $(LDFLAGS) -o $(@) $(<)
