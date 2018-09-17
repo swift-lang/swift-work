@@ -22,5 +22,7 @@ CFLAGS = -g -Wall -O0 -fPIC $(DEFINES) $(INCLUDES) -fdiagnostics-color=always
 		$(LIBS) \
 		$(RPATHS)
 
+.PRECIOUS: %.o
+
 clean:
 	@ rm -fv *.x *.o
