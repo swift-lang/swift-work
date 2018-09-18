@@ -1,0 +1,15 @@
+
+C-Python stuff is in py.c, copied from
+https://github.com/ECP-CANDLE/Supervisor/tree/master/scratch/py-eval
+
+test-1:: (C) Plain use of py.c
+
+test-2:: (C) Use of mpi4py from py.c
+
+test-3:: (C,Python) Use of constructed communicator in mpi4py
+
+test-4:: (Swift) Plain use of python()
+
+test-5:: (Swift) 'import mpi4py' from Swift/T
+
+test-6:: (Swift) Use of constructed communicator from Swift
