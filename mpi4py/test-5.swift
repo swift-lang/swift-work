@@ -1,4 +1,4 @@
 
 import python;
 
-trace(python("import mpi4py", "repr(42)"));
+trace(python("from mpi4py import MPI", "repr(42)"));

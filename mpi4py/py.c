@@ -120,6 +120,7 @@ python_code(const char* code)
 /**
    The expr is evaluated to the returned result
    @param output: Store result pointer here
+   @return true on success, false on exception
 */
 bool python_eval(const char* expr, char** output)
 {
@@ -128,7 +129,8 @@ bool python_eval(const char* expr, char** output)
   // Evaluate expression:
   verbose("python: expr: %s", expr);
   PyObject* o = PyRun_String(expr, Py_eval_input, main_dict, local_dict);
-  if (o == NULL) return handle_python_exception();
+  if (PyErr_Occurred()) return handle_python_exception();
+  // if (o == NULL) return handle_python_exception();
 
   // Convert Python result to C string
   int pc = PyArg_Parse(o, "s", &result);

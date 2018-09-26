@@ -6,7 +6,7 @@ main()
 {
   python_init();
   char* result;
-  python_code("import mpi4py");
+  python_code("from mpi4py import MPI");
   python_eval("repr(42)", &result);
   printf("result: %s\n", result);
   python_finalize();

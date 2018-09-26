@@ -1,9 +1,15 @@
 
 # Dunedin Anaconda3
-PYTHON_HOME = /home/wozniak/sfw/anaconda3
-PYTHON_VERSION_MAJOR = 3
-PYTHON_VERSION_MINOR = 6
-PYTHON_VERSION_SUFFIX = m
+# PYTHON_HOME = /home/wozniak/sfw/anaconda3
+# PYTHON_VERSION_MAJOR = 3
+# PYTHON_VERSION_MINOR = 6
+# PYTHON_VERSION_SUFFIX = m
+
+# Dunedin Spack
+PYTHON_HOME = ${SPACK}/python-2.7.15-pwhanb3k64s3f2qxxysobl4kkhwfinvr
+PYTHON_VERSION_MAJOR = 2
+PYTHON_VERSION_MINOR = 7
+PYTHON_VERSION_SUFFIX =
 
 # End Python settings
 
@@ -16,6 +22,8 @@ DEFINES = -DPYTHON_VERSION_MAJOR=$(PYTHON_VERSION_MAJOR)
 
 CC = mpicc
 CFLAGS = -g -Wall -O0 -fPIC $(DEFINES) $(INCLUDES) -fdiagnostics-color=always
+
+%.o: %.c py.c
 
 %.x: %.o
 	$(CC) -o $(@) $(^) \

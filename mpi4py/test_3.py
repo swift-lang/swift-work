@@ -13,9 +13,8 @@ def go(comm_int):
     MPI_Comm = ctypes.c_int
     MPI_Comm.from_address(comm_int)
     newcomm = MPI.Intracomm()
-    newcomm_ptr = MPI._addressof(newcomm) 
+    newcomm_ptr = MPI._addressof(newcomm)
     comm_val = MPI_Comm.from_address(newcomm_ptr)
     comm_val.value = comm_int
     newcomm.barrier()
     sys.stdout.flush()
-    

@@ -3,4 +3,4 @@ set -eu
 
 . ./setup.sh
 
-swift-t -l -n 4 test-6.swift
+swift-t -l -n 4 test-5.swift
