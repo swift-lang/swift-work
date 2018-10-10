@@ -1,6 +1,8 @@
 print("test_3.py ...")
 import sys
+print("mpi4py ...") ; sys.stdout.flush()
 from mpi4py import MPI
+print("mpi4py OK ...") ; sys.stdout.flush()
 import ctypes
 
 def go(comm_int):

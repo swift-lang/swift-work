@@ -5,21 +5,34 @@
 int
 main()
 {
+  MPI_Init(NULL, NULL);
   python_init();
+
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
   char* result;
   python_code("import test_3");
   char code[1024];
-  sprintf(code, "test_3.go(%i)", MPI_COMM_WORLD);
+  MPI_Comm comm;
+  // comm = MPI_COMM_WORLD; // WORKS
+  MPI_Comm_dup(MPI_COMM_WORLD, &comm); // FAILS
+  MPI_Barrier(comm);
+  if (rank == 0) printf("barrier ok\n");
+  long long int i = (long long int) comm;
+  sprintf(code, "test_3.go(%lli)", i);
+  if (rank == 0) { printf("%s\n", code); fflush(stdout); }
   python_code(code);
   bool rc = python_eval("repr(42)", &result);
-  printf("rc: %i\n", rc);
+  if (rank == 0) printf("rc: %i\n", rc);
   if (!rc)
   {
     printf("python_eval() failed!\n");
     return EXIT_FAILURE;
   }
-  printf("result: %s\n", result);
+  if (rank == 0) printf("result: %s\n", result);
   python_finalize();
   free(result);
+  MPI_Finalize();
   return EXIT_SUCCESS;
 }

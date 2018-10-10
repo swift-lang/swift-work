@@ -5,7 +5,12 @@ for N in $( seq 1 6 )
 do
   echo TEST $N
   echo
-  ./test-$N.sh
+  if ! ./test-$N.sh
+  then
+    echo
+    echo FAILED: ./test-$N.sh
+    exit 1
+  fi
   echo
   echo
 done

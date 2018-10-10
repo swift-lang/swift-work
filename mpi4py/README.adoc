@@ -2,9 +2,21 @@
 C-Python stuff is in py.c, copied from
 https://github.com/ECP-CANDLE/Supervisor/tree/master/scratch/py-eval
 
+== Setup
+
+Edit setup.sh:
+
+. Set SPACK
+. Set HASH locations for each package
+
+(Could have used 'spack load' but this is more fundamental.)
+
+== Test summary
+
 test-1:: (C) Plain use of py.c
 
-test-2:: (C) Use of mpi4py from py.c
+test-2:: (C) Use of mpi4py from py.c .  Requires mpi4py built from
+source, so use Spack for Python and mpi4py and MPI.
 
 test-3:: (C,Python) Use of constructed communicator in mpi4py
 

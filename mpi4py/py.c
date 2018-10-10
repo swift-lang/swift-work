@@ -122,7 +122,8 @@ python_code(const char* code)
    @param output: Store result pointer here
    @return true on success, false on exception
 */
-bool python_eval(const char* expr, char** output)
+bool
+python_eval(const char* expr, char** output)
 {
   char* result = python_result_default;
 
