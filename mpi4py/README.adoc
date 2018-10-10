@@ -13,9 +13,9 @@ Edit setup.sh:
 
 == Test summary
 
-test-1:: (C) Plain use of py.c
+test-1:: (C&#8203;) Plain use of py.c
 
-test-2:: (C) Use of mpi4py from py.c .  Requires mpi4py built from
+test-2:: (C&#8203;) Use of mpi4py from py.c .  Requires mpi4py built from
 source, so use Spack for Python and mpi4py and MPI.
 
 test-3:: (C,Python) Use of constructed communicator in mpi4py
