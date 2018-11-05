@@ -12,5 +12,5 @@ string code2 =
 sio = get_string_io()
 ----;
 
-python_persist(code1, "'ok'");
-python_persist(code2, "'ok'");
+trace(python_persist(code1, "'ok1'"));
+trace(python_persist(code2, "'ok2'"));
