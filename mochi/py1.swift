@@ -2,8 +2,8 @@ import python;
 
 string code1 =
 ----
-from StringIO import StringIO
 def get_string_io():
+    from StringIO import StringIO
     return StringIO()
 ----;
 
