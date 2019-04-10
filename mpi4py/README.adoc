@@ -1,5 +1,13 @@
 
-C-Python stuff is in py.c, copied from
+== Overview
+
+These tests try to call mpi4py on a subcommunicator created by a C program.
+
+Ultimately, the goal is to
+. Run arbitrary mpi4py codes in-memory from Swift/T
+. Run Horovod in-memory from Swift/T
+
+The C-Python stuff is in py.c, copied from
 https://github.com/ECP-CANDLE/Supervisor/tree/master/scratch/py-eval
 
 == Setup
@@ -10,6 +18,18 @@ Edit setup.sh:
 . Set HASH locations for each package
 
 (Could have used 'spack load' but this is more fundamental.)
+
+== Run
+
+The test scripts automatically source +setup.sh+ and run +make+ as necessary.
+
+Simply run the test number you want:
+
+----
+$ ./test-1.sh # or 2..6
+# or
+$ ./test-all.sh
+----
 
 == Test summary
 
