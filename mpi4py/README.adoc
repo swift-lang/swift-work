@@ -10,6 +10,20 @@ Ultimately, the goal is to
 The C-Python stuff is in py.c, copied from
 https://github.com/ECP-CANDLE/Supervisor/tree/master/scratch/py-eval
 
+We suspect this is easier if we have mpi4py built from source.  Thus, we are using Spack to help with this.  To test with just C and Python, you just need:
+
+----
+$ spack install openmpi python py-mpi4py
+----
+
+To run with Swift/T (not yet working), you will need:
+
+----
+$ spack install stc
+----
+
+If these Spack commands try to install a whole bunch of other stuff, contact Wozniak for a packages.yaml that can help.
+
 == Setup
 
 Edit setup.sh:
