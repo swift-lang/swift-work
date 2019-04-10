@@ -3,39 +3,39 @@
 
 #include "lock-mgr.h"
 
-static void manager(void);
+static void run_manager(void);
 
 void
 wlm_init(bool manager)
 {
   if (manager)
-    manager();
+    run_manager();
 }
 
-static void manager_loop(int size, int* lifo);
+static void manager_loop(void);
 
 static void
-manager(void)
+run_manager(void)
 {
   int size;
   MPI_Comm_size(MPI_COMM_WORLD, &size);
-  struct lifo* L;
-  lifo_init(&L, size);
-  manager_loop(lifo, size);
-  free(lifo);
+  manager_loop();
 }
 
 static void
-manager_loop(struct lifo* L, int size)
+manager_loop()
 {
   int data;
-  bool locked = false;
   MPI_Status status;
   while (true)
   {
-    MPI_Recv(&data, 1, MPI_INT, MPI_RANK_ANY, 0, MPI_COMM_WORLD, &status);
+    MPI_Recv(&data, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD,
+    			&status);
     int sender = status.MPI_SOURCE;
-    
+    data = 1;
+    MPI_Send(&data, 1, MPI_INT, sender, 0, MPI_COMM_WORLD);
+    MPI_Recv(&data, 1, MPI_INT, sender, 0, MPI_COMM_WORLD,
+        			&status);
   }
 }
 
