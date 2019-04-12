@@ -14,8 +14,10 @@ lib:
 OBJS = src/wlm_wrap.o src/lock-mgr.o
 # src/lifo.o
 
+$(OBJS): Makefile
+
 $(WLMPY_SO): $(OBJS) lib
-	gcc -shared -o $(@) $(OBJS)
+	$(CC) -shared -o $(@) $(OBJS)
 
 src/wlm_wrap.c: src/wlm.i src/lock-mgr.h Makefile
 	swig -python -o $(@) $(<)

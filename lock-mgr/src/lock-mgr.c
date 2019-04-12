@@ -1,4 +1,6 @@
 
+#include <stdio.h>
+
 #include <mpi.h>
 
 #include "lock-mgr.h"
@@ -10,6 +12,16 @@ wlm_init(bool manager)
 {
   if (manager)
     run_manager();
+}
+
+void
+wlm_mpi_init()
+{
+  MPI_Init(0, 0);
+  int rank, size;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  MPI_Comm_size(MPI_COMM_WORLD, &size);
+  printf("rank: %i/%i\n", rank, size);
 }
 
 static void manager_loop(void);
