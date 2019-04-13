@@ -61,6 +61,7 @@ manager_loop()
   {
     MPI_Recv(&data, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD,
     			&status);
+    printf("recvd\n");
     int sender = status.MPI_SOURCE;
     if (data == WLM_SHUTDOWN)
     {
@@ -72,6 +73,7 @@ manager_loop()
     assert(data == WLM_ACQUIRE);
     data = WLM_OK;
     MPI_Send(&data, 1, MPI_INT, sender, 0, MPI_COMM_WORLD);
+    wlm_profile_acquire();
     MPI_Recv(&data, 1, MPI_INT, sender, 0, MPI_COMM_WORLD,
         			&status);
     assert(data == WLM_RELEASE);
@@ -88,6 +90,7 @@ wlm_acquire(int mgr_rank)
   MPI_Send(&data, 1, MPI_INT, mgr_rank, 0, MPI_COMM_WORLD);
   MPI_Status status;
   MPI_Recv(&data, 1, MPI_INT, mgr_rank, 0, MPI_COMM_WORLD, &status);
+  printf("recvd\n");
   return data;
 }
 
@@ -96,8 +99,6 @@ wlm_release(int mgr_rank)
 {
   int data = WLM_RELEASE;
   MPI_Send(&data, 1, MPI_INT, mgr_rank, 0, MPI_COMM_WORLD);
-  MPI_Status status;
-  MPI_Recv(&data, 1, MPI_INT, mgr_rank, 0, MPI_COMM_WORLD, &status);
   return data;
 }
 
