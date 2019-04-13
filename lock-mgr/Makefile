@@ -11,7 +11,7 @@ all: $(WLMPY_SO)
 lib:
 	mkdir -pv $(@)
 
-OBJS = src/wlm_wrap.o src/lock-mgr.o
+OBJS = src/wlm_wrap.o src/lock-mgr.o src/log.o src/profile.o
 # src/lifo.o
 
 $(OBJS): Makefile

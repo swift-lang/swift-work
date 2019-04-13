@@ -21,4 +21,4 @@ make
 export PYTHONPATH=$LOCK_MGR/lib
 
 set -x
-mpiexec -n $PROCS python $TEST
+mpiexec -l -n $PROCS python $TEST
