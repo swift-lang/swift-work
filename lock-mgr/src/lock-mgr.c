@@ -69,6 +69,7 @@ manager_loop()
       shutdowns++;
       if (shutdowns == world_size-1)
         break;
+      continue;
     }
     assert(data == WLM_ACQUIRE);
     data = WLM_OK;
