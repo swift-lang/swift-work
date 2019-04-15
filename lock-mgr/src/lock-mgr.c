@@ -61,8 +61,8 @@ manager_loop()
   {
     MPI_Recv(&data, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD,
     			&status);
-    printf("recvd\n");
     int sender = status.MPI_SOURCE;
+    // printf("recvd: %i from %i\n", data, sender);
     if (data == WLM_SHUTDOWN)
     {
       wlm_log_printf("received shutdown from rank: %i", sender);
@@ -76,8 +76,8 @@ manager_loop()
     MPI_Send(&data, 1, MPI_INT, sender, 0, MPI_COMM_WORLD);
     wlm_profile_lock_acquire();
     MPI_Recv(&data, 1, MPI_INT, sender, 0, MPI_COMM_WORLD, &status);
-    wlm_profile_lock_release();
     assert(data == WLM_RELEASE);
+    wlm_profile_lock_release();
   }
 }
 
@@ -91,7 +91,6 @@ wlm_acquire(int mgr_rank)
   MPI_Send(&data, 1, MPI_INT, mgr_rank, 0, MPI_COMM_WORLD);
   MPI_Status status;
   MPI_Recv(&data, 1, MPI_INT, mgr_rank, 0, MPI_COMM_WORLD, &status);
-  printf("recvd\n");
   return data;
 }
 
