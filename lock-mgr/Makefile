@@ -11,10 +11,11 @@ all: $(WLMPY_SO)
 lib:
 	mkdir -pv $(@)
 
+HEADERS = $(wildcard src/*.h)
 OBJS = src/wlm_wrap.o src/lock-mgr.o src/log.o src/profile.o
 # src/lifo.o
 
-$(OBJS): Makefile
+$(OBJS): Makefile $(HEADERS)
 
 $(WLMPY_SO): $(OBJS) lib
 	$(CC) -shared -o $(@) $(OBJS)

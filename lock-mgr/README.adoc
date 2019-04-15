@@ -1,2 +1,2 @@
 
-WLM: W Lock Manager
+WLM: Workflow Lock Manager

@@ -73,9 +73,9 @@ manager_loop()
     assert(data == WLM_ACQUIRE);
     data = WLM_OK;
     MPI_Send(&data, 1, MPI_INT, sender, 0, MPI_COMM_WORLD);
-    wlm_profile_acquire();
-    MPI_Recv(&data, 1, MPI_INT, sender, 0, MPI_COMM_WORLD,
-        			&status);
+    wlm_profile_lock_acquire();
+    MPI_Recv(&data, 1, MPI_INT, sender, 0, MPI_COMM_WORLD, &status);
+    wlm_profile_lock_release();
     assert(data == WLM_RELEASE);
   }
 }
