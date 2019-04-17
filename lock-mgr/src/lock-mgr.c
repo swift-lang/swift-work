@@ -1,6 +1,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <mpi.h>
 
@@ -22,10 +23,13 @@ wlm_init(bool manager, int extra_ranks_in)
 {
   extra_ranks = extra_ranks_in;
   wlm_log_init();
+  int name_length = 1024;
+  char name[name_length];
+  gethostname(name, name_length);
   if (manager)
-    wlm_log_printf("starting manager");
+    wlm_log_printf("%s: starting manager", name);
   else
-    wlm_log_printf("starting client");
+    wlm_log_printf("%s: starting client", name);
   if (manager)
     run_manager();
 }
