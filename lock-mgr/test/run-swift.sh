@@ -19,5 +19,10 @@ make -j
 
 export PYTHONPATH=$LOCK_MGR/lib
 
+if [ -f test.db ]
+then
+  rm test.db
+fi
+
 set -x
 swift-t -l -n $PROCS $TEST
