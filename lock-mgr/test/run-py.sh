@@ -15,9 +15,14 @@ LOCK_MGR=$( readlink --canonicalize $THIS/.. )
 
 cd $LOCK_MGR
 
-make
+make -j
 
 export PYTHONPATH=$LOCK_MGR/lib
 
+if [ -f test.db ]
+then
+  rm test.db
+fi
+
 set -x
-mpiexec -l -n $PROCS python $TEST
+mpiexec -l -n $PROCS -f theta.hosts python $TEST
