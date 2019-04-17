@@ -37,9 +37,9 @@ if rank == 0:
     connect()
     conn.execute(sql_create)
     conn.commit()
-    _wlmpy.wlm_init(True)
+    _wlmpy.wlm_init(True, 0)
 else:
-    _wlmpy.wlm_init(False)
+    _wlmpy.wlm_init(False, 0)
 
     # Test that the manager is ready before connecting
     _wlmpy.wlm_acquire(0)

@@ -9,14 +9,23 @@
 #include "profile.h"
 
 static int world_size = -1;
+static int extra_ranks = -1;
 
 static void run_manager(void);
 
+/**
+   @param extras: Number of ranks that do not participate in WLMPY,
+                               E.g., Swift/T servers
+*/
 void
-wlm_init(bool manager)
+wlm_init(bool manager, int extra_ranks_in)
 {
+  extra_ranks = extra_ranks_in;
   wlm_log_init();
-  wlm_log_printf("starting");
+  if (manager)
+    wlm_log_printf("starting manager");
+  else
+    wlm_log_printf("starting client");
   if (manager)
     run_manager();
 }
@@ -45,7 +54,7 @@ run_manager(void)
 
 enum wlm_messages
 {
-  WLM_ACQUIRE  = 1,
+  WLM_ACQUIRE = 10,
   WLM_RELEASE,
   WLM_OK,
   WLM_SHUTDOWN
@@ -67,7 +76,7 @@ manager_loop()
     {
       wlm_log_printf("received shutdown from rank: %i", sender);
       shutdowns++;
-      if (shutdowns == world_size-1)
+      if (shutdowns == world_size - extra_ranks - 1)
         break;
       continue;
     }

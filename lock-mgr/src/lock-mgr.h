@@ -5,7 +5,7 @@
 
 #include <stdbool.h>
 
-void wlm_init(bool manager);
+void wlm_init(bool manager, int extra_ranks_in);
 
 /**
    Only necessary if the app does not already call MPI_Init()
