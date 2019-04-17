@@ -49,7 +49,7 @@ else:
 
     for i in range(0,5):
         # _wlmpy.wlm_acquire(0)
-        # time.sleep(random.randint(0,100)/1000.0)
+        time.sleep(random.randint(0,10)/1000.0)
         insert()
         # _wlmpy.wlm_release(0)
 
