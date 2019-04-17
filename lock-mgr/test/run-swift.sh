@@ -20,4 +20,4 @@ make
 export PYTHONPATH=$LOCK_MGR/lib
 
 set -x
-mpiexec -l -n $PROCS python $TEST
+swift-t -l -n $PROCS $TEST
