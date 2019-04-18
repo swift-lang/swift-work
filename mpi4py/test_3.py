@@ -12,11 +12,18 @@ def go(comm_int):
     comm.barrier()
 
     # MPICH mode:
-    MPI_Comm = ctypes.c_int
-    MPI_Comm.from_address(comm_int)
-    newcomm = MPI.Intracomm()
-    newcomm_ptr = MPI._addressof(newcomm)
-    comm_val = MPI_Comm.from_address(newcomm_ptr)
-    comm_val.value = comm_int
-    newcomm.barrier()
-    sys.stdout.flush()
+    # MPI_Comm = ctypes.c_int
+    # MPI_Comm.from_address(comm_int)
+    # newcomm = MPI.Intracomm()
+    # newcomm_ptr = MPI._addressof(newcomm)
+    # comm_val = MPI_Comm.from_address(newcomm_ptr)
+    # comm_val.value = comm_int
+    # newcomm.barrier()
+    # sys.stdout.flush()
+
+    # OpenMPI mode (from Zaki)
+    comm_pointer = ctypes.c_void_p
+    mpi4py_comm = MPI.Intracomm()
+    handle = comm_pointer.from_address(MPI._addressof(mpi4py_comm))
+    handle.value = horovod_comm_int
+    mpi4py_comm.barrier()
