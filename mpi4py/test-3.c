@@ -15,8 +15,8 @@ main()
   python_code("import test_3");
   char code[1024];
   MPI_Comm comm;
-  // comm = MPI_COMM_WORLD; // WORKS
-  MPI_Comm_dup(MPI_COMM_WORLD, &comm); // FAILS
+  comm = MPI_COMM_WORLD; // MODE 1: WORKS
+  // MPI_Comm_dup(MPI_COMM_WORLD, &comm); // MODE 2: FAILS
   MPI_Barrier(comm);
   if (rank == 0) printf("barrier ok\n");
   long long int i = (long long int) comm;
