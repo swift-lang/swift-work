@@ -4,6 +4,7 @@
 These tests try to call mpi4py on a subcommunicator created by a C program.
 
 Ultimately, the goal is to
+
 . Run arbitrary mpi4py codes in-memory from Swift/T
 . Run Horovod in-memory from Swift/T
 
