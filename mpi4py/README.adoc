@@ -68,8 +68,9 @@ source, so use Spack for Python and mpi4py and MPI.
 
 test-3::
 (C,Python)
-Use of constructed communicator in mpi4py
-Works in MPICH: Both MODE 1 and MODE 2
+Use of constructed communicator in mpi4py . +
+Works in MPICH: Both MODE 1 and MODE 2 +
+Does not work in OpenMPI
 
 test-4:: (Swift) Plain use of python()
 
