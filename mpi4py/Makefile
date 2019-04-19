@@ -23,8 +23,8 @@ CFLAGS = -g -Wall -O0 -fPIC $(DEFINES) $(INCLUDES) -fdiagnostics-color=always
 
 %.o: %.c py.c
 
-%.x: %.o
-	$(CC) -o $(@) $(^) \
+%.x: %.o Makefile
+	$(CC) -o $(@) $(<) \
 		$(LIBS) \
 		$(RPATHS)
 
