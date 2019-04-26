@@ -25,4 +25,4 @@ then
 fi
 
 set -x
-mpiexec -l -n $PROCS -f theta.hosts python $TEST
+mpiexec -l -n $PROCS python $TEST
