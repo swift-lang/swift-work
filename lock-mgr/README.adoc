@@ -28,6 +28,10 @@ Just to get the time in a consistent way
 
 Run the Python tests with run-py.sh and the Swift/T tests with run-swift.sh
 
+----
+$ test/run-py.sh test/test-0.sh
+----
+
 == Sample output
 
 === test-5: Plain Python DB inserts
