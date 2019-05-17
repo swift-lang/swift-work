@@ -15,6 +15,6 @@ file d<"d.txt">;
 
 // The following lines can be reordered arbitrarily
 a = create(null);
-b = create(a);  // b and c can be created concurrently
 c = create(a);  
-d = join([b,c]);
+d = join([b,c]); // this will fire after b is created
+b = create(a);   // b and c can be created concurrently
