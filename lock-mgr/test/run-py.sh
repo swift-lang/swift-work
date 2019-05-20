@@ -27,5 +27,14 @@ then
   rm test.db
 fi
 
+# Auto-detect the MPI implementation:
+MPI_IMPL="MPICH"
+MPI_RANK_LINES="-l"
+if mpiexec -h | head -1 | grep -q "OpenRTE"
+then
+  MPI_IMPL="OpenMPI"
+  MPI_RANK_LINES="--tag-output"
+fi
+
 set -x
-mpiexec -l -n $PROCS python $TEST
+mpiexec $MPI_RANK_LINES -n $PROCS python2 $TEST
