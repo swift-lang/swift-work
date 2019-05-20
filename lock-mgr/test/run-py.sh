@@ -17,6 +17,9 @@ cd $LOCK_MGR
 
 make -j
 
+echo "BUILD OK"
+echo
+
 export PYTHONPATH=$LOCK_MGR/lib
 
 if [ -f test.db ]
