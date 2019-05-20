@@ -13,7 +13,12 @@ void wlm_init(bool manager, int extra_ranks_in);
 int wlm_mpi_init(void);
 
 /**
-   Return 1 on success, else 0
+   @return size(MPI_COMM_WORLD)
+*/
+int wlm_mpi_size(void);
+
+/**
+   @return 1 on success, else 0
  */
 int wlm_acquire(int mgr_rank);
 

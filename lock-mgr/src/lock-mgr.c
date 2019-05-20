@@ -38,11 +38,17 @@ int
 wlm_mpi_init()
 {
   MPI_Init(0, 0);
-  int rank, size;
+  int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  MPI_Comm_size(MPI_COMM_WORLD, &size);
-  printf("rank: %i/%i\n", rank, size);
+  MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+  printf("rank: %i/%i\n", rank, world_size);
   return rank;
+}
+
+int
+wlm_mpi_size()
+{
+  return world_size;
 }
 
 static void manager_loop(void);
@@ -51,7 +57,6 @@ static void
 run_manager(void)
 {
   wlm_profile_init(true);
-  MPI_Comm_size(MPI_COMM_WORLD, &world_size);
   manager_loop();
   wlm_profile_done();
 }
