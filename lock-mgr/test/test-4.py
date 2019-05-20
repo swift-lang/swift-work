@@ -15,6 +15,7 @@ else:
 
     for i in range(0,5):
         _wlmpy.wlm_acquire(0)
+        # Sleep for 0-1000 milliseconds
         time.sleep(random.randint(0,1000)/1000.0)
         _wlmpy.wlm_release(0)
 
