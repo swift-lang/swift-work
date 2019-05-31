@@ -1,5 +1,4 @@
 #!/bin/bash
-set -eu
 
 # TEST C SH
 # C language test runner
@@ -13,6 +12,8 @@ fi
 N=$1
 
 . ./setup.sh
+
+set -eu
 
 make test-$N.x
 ./test-$N.x

@@ -3,18 +3,24 @@
 
 # Some exports are needed to pass to the Makefile
 
+echo SETUP.SH START
+
 if ! SPACK=$( which spack )
 then
-  print "Not found: spack"
+  echo "Not found: spack"
   return 1
 fi
 SPACK_HOME=$( dirname $( dirname $( readlink --canonicalize $SPACK ) ) )
-source $SPACK_HOME/share/spack/setup-env.sh
+. /usr/share/modules/init/bash
+. $SPACK_HOME/share/spack/setup-env.sh
 
+spack load python@3.7.3
 spack load py-mpi4py
-spack load python@2.7.16
-spack find mpi
-spack load mpi
+# spack load python@2.7.16
+# spack find mpi
+# spack load mpi
+spack load openmpi
+spack load "stc^openmpi"
 
 which mpicc python swift-t
 
@@ -27,4 +33,5 @@ export HASH_PYTHON
 
 export PYTHONPATH=$PWD:$PYTHONPATH
 
+echo SETUP.SH DONE
 echo
