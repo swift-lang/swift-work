@@ -15,7 +15,7 @@ def get_task_comm():
     comm_val = MPI_Comm.from_address(newcomm_ptr)
     # comm_val.value = task_comm_int
     print("gtc3");sys.stdout.flush()
-    # newcomm.barrier()
+    newcomm.barrier()
     print("gtc4");sys.stdout.flush()
     return newcomm
 
