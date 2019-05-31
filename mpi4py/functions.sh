@@ -1,6 +1,4 @@
 
-echo FUNCTIONS.SH START
-
 test_run()
 {
   COMMAND=( ${*} )
@@ -12,5 +10,3 @@ test_run()
     exit 1
   fi
 }
-
-echo FUNCTIONS.SH DONE

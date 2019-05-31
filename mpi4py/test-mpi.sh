@@ -17,4 +17,5 @@ PROCS=$2
 set -eu
 
 make test-$TEST.x
-mpiexec --tag-output -n $PROCS ./test-$TEST.x
+# --tag-output
+mpiexec -l -n $PROCS ./test-$TEST.x

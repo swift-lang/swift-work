@@ -7,13 +7,20 @@ def get_task_comm():
     import ctypes
     task_comm_string = os.getenv("task_comm")
     print("task_comm_string: " + task_comm_string)
+
+    # # MPICH mode
     # task_comm_int = int(task_comm_string)
-    # MPI_Comm = ctypes.c_int
-    # MPI_Comm.from_address(task_comm_int)
-    # newcomm = MPI.Intracomm()
-    # newcomm_ptr = MPI._addressof(newcomm)
-    # comm_val = MPI_Comm.from_address(newcomm_ptr)
-    # comm_val.value = task_comm_int
+    # comm_int = ctypes.c_int
+    # mpi4py_comm = MPI.Intracomm()
+    # print("mpi4py_comm: ", dir(mpi4py_comm))
+    # mpi4py_comm_ptr = comm_int.from_address(MPI._addressof(mpi4py_comm))
+    # print("mpi4py_comm_ptr 1: ", mpi4py_comm_ptr)
+    # mpi4py_comm_ptr.value = task_comm_int
+    # # handle = comm_pointer.from_address(MPI._addressof(mpi4py_comm))
+    # print("mpi4py_comm_ptr 2: ", mpi4py_comm_ptr)
+    # print("mpi4py_comm_ptr d: ", dir(mpi4py_comm_ptr))
+    # print("mpi4py_comm_ptr c: ", mpi4py_comm_ptr.__class__)
+    # # mpi4py_comm_ptr = comm_int
 
     # OpenMPI mode (from Zaki)
     comm_int = int(task_comm_string)
@@ -39,6 +46,9 @@ def f():
     print("comm: " + str(comm))
     comm.barrier()
     result = "XX"
+    import horovod.keras as hvd
+    hvd.init(comm=comm)
+    hvd.shutdown()
 
 def get():
     global result

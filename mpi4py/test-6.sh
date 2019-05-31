@@ -2,6 +2,8 @@
 
 . ./setup.sh
 
-set -eu
+export TURBINE_MPI_THREAD=1
 
-swift-t -l -n 4 test-6.swift
+swift-t -l -n 8 test-6.swift
+
+echo OK

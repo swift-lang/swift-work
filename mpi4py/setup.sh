@@ -14,13 +14,15 @@ SPACK_HOME=$( dirname $( dirname $( readlink --canonicalize $SPACK ) ) )
 . /usr/share/modules/init/bash
 . $SPACK_HOME/share/spack/setup-env.sh
 
-spack load python@3.7.3
-spack load py-mpi4py
 # spack load python@2.7.16
+spack load python@3.7.3
 # spack find mpi
 # spack load mpi
-spack load openmpi
-spack load "stc^openmpi"
+# spack load openmpi
+spack load mpich
+spack load "py-mpi4py^mpich"
+# spack load "stc^openmpi"
+spack load stc
 
 which mpicc python swift-t
 

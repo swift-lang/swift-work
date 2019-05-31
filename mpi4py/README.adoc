@@ -70,6 +70,12 @@ $ ./test-1.sh # or 2..6
 $ ./test-all.sh
 ----
 
+To run Horovod, you need MPI threading support:
+
+----
+export TURBINE_MPI_THREAD=1
+----
+
 == Test summary
 
 test-1::
