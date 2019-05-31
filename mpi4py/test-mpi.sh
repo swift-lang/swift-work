@@ -1,5 +1,4 @@
 #!/bin/bash
-set -eu
 
 # TEST MPI SH
 # MPI/C language test runner
@@ -10,10 +9,12 @@ then
   exit 1
 fi
 
-N=$1
-P=$2
+TEST=$1
+PROCS=$2
 
 . ./setup.sh
 
-make test-$N.x
-mpiexec -n $P ./test-$N.x
+set -eu
+
+make test-$TEST.x
+mpiexec --tag-output -n $PROCS ./test-$TEST.x

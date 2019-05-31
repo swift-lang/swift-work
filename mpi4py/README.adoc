@@ -44,6 +44,20 @@ Edit setup.sh:
 
 (Could have used 'spack load' but this is more fundamental.)
 
+== Install
+
+=== From Spack
+
+Install:
+
+----
+$ spack install openmpi
+$ spack install python@3.7.3
+$ spack install "py-mpi4py^python@3.7.3^openmpi"
+$ spack install "turbine+python^openmpi^python@3.7.3"
+$ spack install "stc^turbine+python^openmpi^python@3.7.3"
+----
+
 == Run
 
 The test scripts automatically source +setup.sh+ and run +make+ as necessary.
@@ -73,8 +87,14 @@ Use of constructed communicator in mpi4py . +
 Works in MPICH: Both MODE 1 and MODE 2 +
 Does not work in OpenMPI
 
-test-4:: (Swift) Plain use of python()
+test-4::
+(Swift)
+Plain use of python()
 
-test-5:: (Swift) 'import mpi4py' from Swift/T
+test-5::
+(Swift)
+'import mpi4py' from Swift/T
 
-test-6:: (Swift) Use of constructed communicator from Swift
+test-6::
+(Swift)
+Use of constructed communicator from Swift
