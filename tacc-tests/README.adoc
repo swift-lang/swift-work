@@ -1,0 +1,6 @@
+
+Run with:
+
+----
+./run-swift.sh test-0.swift
+----
