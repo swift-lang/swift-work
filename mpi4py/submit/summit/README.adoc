@@ -67,7 +67,7 @@ trace: 42
 
 === Test 6
 
-In test-6.swift, see the section USER CODE GOES HERE.
+In test_6.py, see the section USER CODE GOES HERE.
 
 ----
 $ ./run-batch-swift.sh -n 8 ../../test-6.swift
