@@ -1,0 +1,66 @@
+
+= Summit
+
+== Setup
+
+Starting with fresh Spack:
+
+----
+# Add Python from /gpfs/alpine/world-shared/med106/sw2/opence010env
+# Add MPI from module spectrum-mpi/10.3.1.2-20200121
+$ spack external find
+# Check installations
+$ spack find
+----
+
+Install mpi4py
+
+----
+$ spack install "py-mpi4py^python@3.6.12^spectrum-mpi@10.3.1.02rtm0"
+# (also installs py-setuptools)
+----
+
+Update the ../../Makefile to uncomment the Summit settings
+
+== Tests
+
+Get an interactive session, then run:
+
+=== Test 1
+
+----
+$ make ../../test-1.x
+$ ./run-batch.sh ../../test-1.x
+result: 42
+----
+
+=== Test 2
+
+----
+$ make ../../test-2.x
+$ ./run-batch.sh ../../test-2.x
+result: 42
+----
+
+=== Test 3
+
+----
+$ make ../../test-3.x
+$ ./run-batch.sh ../../test-3.x
+go(): barrier ok
+----
+
+=== Test 4
+
+----
+$ ./run-batch-swift.sh ../../test-4.swift
+trace: HELLO
+trace: 42
+----
+
+=== Test 5
+
+----
+$ ./run-batch-swift.sh ../../test-5.swift
+trace: 42
+----

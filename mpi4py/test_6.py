@@ -45,10 +45,10 @@ def f():
     comm = get_task_comm()
     print("comm: " + str(comm))
     comm.barrier()
-    result = "XX"
-    import horovod.keras as hvd
-    hvd.init(comm=comm)
-    hvd.shutdown()
+    result = "PYTHON_OK"
+    # import horovod.keras as hvd
+    # hvd.init(comm=comm)
+    # hvd.shutdown()
 
 def get():
     global result

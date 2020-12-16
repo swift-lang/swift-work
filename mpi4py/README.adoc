@@ -44,9 +44,9 @@ If these Spack commands try to install a whole bunch of other stuff, contact Woz
 
 Using 'spack load' - see setup.sh
 
-== Install
+=== Install
 
-=== From Spack
+==== From Spack
 
 Install:
 
@@ -57,6 +57,10 @@ $ spack install "py-mpi4py^python@3.7.3^openmpi"
 $ spack install "turbine+python^openmpi^python@3.7.3"
 $ spack install "stc^turbine+python^openmpi^python@3.7.3"
 ----
+
+=== Makefile
+
+First, edit the Makefile to select your Python home directory and version numbers.  The Makefile is used automatically below.
 
 == Run
 
