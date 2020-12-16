@@ -14,8 +14,11 @@ https://github.com/ECP-CANDLE/Supervisor/tree/master/scratch/py-eval
 We suspect this is easier if we have mpi4py built from source.  Thus, we are using Spack to help with this.  To test with just C and Python, you just need:
 
 ----
-$ spack install openmpi python "py-mpi4py^openmpi"
+$ spack install "openmpi@VERSION"
+$ spack install "py-mpi4py ^openmpi@VERSION"
 ----
+
+where VERSION is 4.0.5 (2020-12-14)
 
 or:
 
@@ -23,10 +26,16 @@ or:
 $ spack install mpich python py-mpi4py
 ----
 
-To run with Swift/T (not yet working), you will need:
+To run with Swift/T, you will need:
 
 ----
-$ spack install stc
+$ spack install "stc@master^openmpi@VERSION"
+----
+
+or:
+
+----
+$ spack install stc@master
 ----
 
 If these Spack commands try to install a whole bunch of other stuff, contact Wozniak for a packages.yaml that can help.
@@ -34,15 +43,6 @@ If these Spack commands try to install a whole bunch of other stuff, contact Woz
 == Setup
 
 Using 'spack load' - see setup.sh
-
-=== Obsolete:
-
-Edit setup.sh:
-
-. Set SPACK
-. Set HASH locations for each package
-
-(Could have used 'spack load' but this is more fundamental.)
 
 == Install
 
@@ -90,8 +90,7 @@ source, so use Spack for Python and mpi4py and MPI.
 test-3::
 (C,Python)
 Use of constructed communicator in mpi4py . +
-Works in MPICH: Both MODE 1 and MODE 2 +
-Does not work in OpenMPI
+Works in MPICH and OpenMPI.
 
 test-4::
 (Swift)
