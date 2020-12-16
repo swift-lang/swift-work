@@ -44,8 +44,12 @@ def f():
     global result
     comm = get_task_comm()
     print("comm: " + str(comm))
+
+    ### USER CODE GOES HERE
     comm.barrier()
     result = "PYTHON_OK"
+    ### END USER CODE
+
     # import horovod.keras as hvd
     # hvd.init(comm=comm)
     # hvd.shutdown()

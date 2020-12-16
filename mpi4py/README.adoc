@@ -107,3 +107,9 @@ test-5::
 test-6::
 (Swift)
 Use of constructed communicator from Swift
+
+== Next steps
+
+In test-6.swift, see the section USER CODE GOES HERE.
+We can put your Python code here that uses the given communicator.
+We can also extend test-6.swift to be a real workflow.
