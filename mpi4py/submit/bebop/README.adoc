@@ -1,5 +1,7 @@
 
-= Summit
+= Bebop
+
+WIP: This will soon document running on the compute nodes...
 
 == Setup
 
