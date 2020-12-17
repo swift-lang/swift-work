@@ -58,9 +58,37 @@ $ spack install "turbine+python^openmpi^python@3.7.3"
 $ spack install "stc^turbine+python^openmpi^python@3.7.3"
 ----
 
+=== Bebop
+
+Update setup.sh to select the Spack settings for Bebop.
+
+Starting with fresh Spack:
+
+----
+$ module load gcc/7.1.0-4bgguyp
+$ module load python/3.6.2-3dp4bht
+$ PATH=/home/woz/Public/sfw/bebop/login/mpich-3.1.2/bin:$PATH
+# This should find Python and MPICH:
+$ spack external find
+# Check installations
+$ spack find
+# Add Swift/T after use of 'external find'
+$ module load jdk/8u172-b11-of5fvnd
+$ PATH=/home/woz/Public/sfw/bebop/login/swift-t/2020-12-16/stc/bin
+----
+
+Install mpi4py
+
+----
+$ spack install "py-mpi4py"
+# (also installs py-setuptools)
+----
+
+The Makefile contains entries for Bebop.
+
 === Makefile
 
-First, edit the Makefile to select your Python home directory and version numbers.  The Makefile is used automatically below.
+Edit the Makefile to select your Python home directory and version numbers.  The Makefile is used automatically below.
 
 == Run
 

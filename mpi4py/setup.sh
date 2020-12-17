@@ -11,7 +11,11 @@ then
   return 1
 fi
 SPACK_HOME=$( dirname $( dirname $( readlink --canonicalize $SPACK ) ) )
-. /usr/share/modules/init/bash
+if [[ ${#LMOD_CMD} == "" ]]
+then
+  # Set up environment modules if not using Lmod:
+  . /usr/share/modules/init/bash
+fi
 . $SPACK_HOME/share/spack/setup-env.sh
 
 # SPACK SETTINGS START:
@@ -22,15 +26,15 @@ SPACK_HOME=$( dirname $( dirname $( readlink --canonicalize $SPACK ) ) )
 # spack find mpi
 # spack load mpi
 
-# MPICH
-# spack load mpich
-# spack load "py-mpi4py^mpich"
+# MPICH (Bebop)
+spack load mpich
+spack load "py-mpi4py^mpich"
 
-spack load openmpi
-spack load "py-mpi4py^openmpi"
+# spack load openmpi
+# spack load "py-mpi4py^openmpi"
 
 # spack load "stc^openmpi"
-spack load stc
+# spack load stc
 # SPACK SETTINGS END:
 
 echo "USING:"

@@ -1,0 +1,77 @@
+
+= Summit
+
+== Setup
+
+Starting with fresh Spack:
+
+----
+$ module load gcc/7.1.0-4bgguyp
+$ module load python/3.6.2-3dp4bht
+$ PATH=/home/woz/Public/sfw/bebop/login/mpich-3.1.2/bin:$PATH
+# This should find Python and MPICH:
+$ spack external find
+# Check installations
+$ spack find
+----
+
+Install mpi4py
+
+----
+$ spack install "py-mpi4py"
+# (also installs py-setuptools)
+----
+
+Update the ../../Makefile to uncomment the Bebop settings
+
+== Tests
+
+Get an interactive session, then run:
+
+=== Test 1
+
+----
+$ make -C ../../ test-1.x
+$ ./test.sh ../../test-1.x
+result: 42
+----
+
+=== Test 2
+
+----
+$ make --directory=../../ test-2.x
+$ ./run-batch.sh ../../test-2.x
+result: 42
+----
+
+=== Test 3
+
+----
+$ make --directory=../../ test-3.x
+$ ./run-batch.sh ../../test-3.x
+go(): barrier ok
+----
+
+=== Test 4
+
+----
+$ ./run-batch-swift.sh ../../test-4.swift
+trace: HELLO
+trace: 42
+----
+
+=== Test 5
+
+----
+$ ./run-batch-swift.sh -n 8 ../../test-5.swift
+trace: 42
+----
+
+=== Test 6
+
+In test_6.py, see the section USER CODE GOES HERE.
+
+----
+$ ./run-batch-swift.sh -n 8 ../../test-6.swift
+trace: 'PYTHON_OK'
+----
