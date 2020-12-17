@@ -46,6 +46,10 @@ def f():
     print("comm: " + str(comm))
 
     ### USER CODE GOES HERE
+    size = comm.Get_size()
+    rank = comm.Get_rank()
+    print("f(): rank: %i/%i" % (rank, size))
+
     comm.barrier()
     result = "PYTHON_OK"
     ### END USER CODE
