@@ -30,5 +30,10 @@ def go(comm_int):
     print("go(): comm_int: ", comm_int)
     handle = comm_pointer.from_address(MPI._addressof(mpi4py_comm))
     handle.value = comm_int
+
+    size = comm.Get_size()
+    rank = comm.Get_rank()
+    print("go(): rank: %i/%i" % (rank, size))
+
     mpi4py_comm.barrier()
     print("go(): barrier ok")

@@ -17,8 +17,14 @@
 # PYTHON_VERSION_MINOR = 8
 # # PYTHON_VERSION_SUFFIX = m
 
-# Summit med106 opence010env
-PYTHON_HOME = /gpfs/alpine/world-shared/med106/sw2/opence010env
+# # Summit med106 opence010env
+# PYTHON_HOME = /gpfs/alpine/world-shared/med106/sw2/opence010env
+# PYTHON_VERSION_MAJOR = 3
+# PYTHON_VERSION_MINOR = 6
+# PYTHON_VERSION_SUFFIX = m
+
+# Bebop gcc/7.1.0-4bgguyp python/3.6.2-3dp4bht
+PYTHON_HOME = /blues/gpfs/home/software/spack-0.10.1/opt/spack/linux-centos7-x86_64/gcc-7.1.0/python-3.6.2-3dp4bht6wfnham4now6w2iv7t7fpdazx
 PYTHON_VERSION_MAJOR = 3
 PYTHON_VERSION_MINOR = 6
 PYTHON_VERSION_SUFFIX = m

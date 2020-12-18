@@ -44,7 +44,7 @@ def get_task_comm():
     print("msg4");sys.stdout.flush()
     return mpi4py_comm
 
-def f(s):
+def f(msg):
     import sys
     print("f()");sys.stdout.flush()
     # from mpi4py import MPI
@@ -54,7 +54,10 @@ def f(s):
     print("comm: " + str(comm))
 
     ### USER CODE GOES HERE
-    print(s)
+    size = comm.Get_size()
+    rank = comm.Get_rank()
+    print("f('%s'): rank: %i/%i" % (msg, rank, size))
+
     comm.barrier()
     result = "PYTHON_OK"
     ### END USER CODE
