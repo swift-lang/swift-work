@@ -1,8 +1,16 @@
 
+use_world = False
+
 def get_task_comm():
     import os,sys
-    print("msg1");sys.stdout.flush()
     from mpi4py import MPI
+    global use_world
+
+    if use_world:
+        return MPI.COMM_WORLD
+
+    print("msg1");sys.stdout.flush()
+
     print("msg2");sys.stdout.flush()
     import ctypes
     task_comm_string = os.getenv("task_comm")
@@ -36,7 +44,7 @@ def get_task_comm():
     print("msg4");sys.stdout.flush()
     return mpi4py_comm
 
-def f():
+def f(s):
     import sys
     print("f()");sys.stdout.flush()
     # from mpi4py import MPI
@@ -46,14 +54,20 @@ def f():
     print("comm: " + str(comm))
 
     ### USER CODE GOES HERE
+    print(s)
     comm.barrier()
     result = "PYTHON_OK"
     ### END USER CODE
 
     # import horovod.keras as hvd
     # hvd.init(comm=comm)
+    # benchmark.run(params) # params a dict of hyperparameters
     # hvd.shutdown()
 
 def get():
     global result
     return result
+
+if __name__ == "__main__":
+    use_world = True
+    f("MY PARAMETERS")
