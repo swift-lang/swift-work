@@ -9,4 +9,4 @@ PROJECT=$( readlink --canonicalize $THIS/../.. )
 source $THIS/settings.sh
 export PYTHONPATH=$PROJECT:${PYTHONPATH:-}
 
-jsrun -n 1 ${*}
+jsrun -n 4 --stdio_mode prepended ${*}
