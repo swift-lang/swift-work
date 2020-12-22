@@ -17,6 +17,11 @@ source ./setup.sh
 set -eu
 
 make test-$TEST.x
-# --tag-output
-# -l
-mpiexec -n $PROCS ./test-$TEST.x
+
+if [[ $MPI_MODE == "OpenMPI" ]]
+then
+  TAG="--tag-output"
+else
+  TAG="-l"
+fi
+mpiexec $TAG -n $PROCS ./test-$TEST.x
