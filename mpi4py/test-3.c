@@ -24,6 +24,7 @@ main()
   if (rank == 0) printf("barrier ok\n");
   unsigned long long int comm_int;
   comm_int = (unsigned long long int) comm;
+  printf("C comm: %llu\n", comm_int);
   sprintf(code, "test_3.go(%llu)", comm_int);
   if (rank == 0) { printf("%s\n", code); fflush(stdout); }
 
@@ -32,8 +33,7 @@ main()
   MPI_Comm comm2;
   MPI_Comm_split(comm, rank%2, rank, &comm2);
   comm_int = (unsigned long long int) comm2;
-  if (rank == 0)
-    printf("C comm: %llu\n", comm_int);
+  printf("C comm: %llu\n", comm_int);
   sprintf(code, "test_3.go(%llu)", comm_int);
   python_code(code);
   python_code(code);

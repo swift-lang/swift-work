@@ -27,6 +27,7 @@ def go(comm_int):
     try:
         # # OpenMPI mode (from Zaki)
         comm_pointer = ctypes.c_void_p
+        # comm_pointer = ctypes.c_int
         newcomm = MPI.Intracomm()
         print("go(): comm_int: ", comm_int)
         sys.stdout.flush()
@@ -37,11 +38,11 @@ def go(comm_int):
         # USER CODE:
         new_size = newcomm.Get_size()
         new_rank = newcomm.Get_rank()
-        if new_rank == 1:
-            print("go(): new rank: %i/%i" % (new_rank, new_size))
+        # if new_rank == 1:
+        print("go(): new rank: %i/%i" % (new_rank, new_size))
         newcomm.barrier()
-        if new_rank == 1:
-            print("go(): barrier ok")
+        # if new_rank == 1:
+        print("go(): barrier ok")
         sys.stdout.flush()
     except Exception as e:
         info = sys.exc_info()

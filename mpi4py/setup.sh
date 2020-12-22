@@ -31,22 +31,13 @@ fi
 
 # MPICH (Bebop)
 # spack load mpich
-# spack load "py-mpi4py^mpich"
 
 # spack load mpich
 
 spack load openmpi
 
-# SPACK MPI APPS SETTINGS:
-
-spack load "py-mpi4py^openmpi"
-
-# spack load "stc^openmpi"
-# spack load stc
-# SPACK SETTINGS END:
-
-echo "USING:"
-which mpicc python swift-t
+echo "USING MPI:"
+which mpicc
 
 # Detect MPI mode:
 if mpiexec -h | grep -q OpenRTE
@@ -60,7 +51,27 @@ else
   exit 1
 fi
 
-echo "MPI_MODE=$MPI_MODE"
+echo MPI_MODE=$MPI_MODE
+
+# SPACK MPI APPS SETTINGS:
+
+if [[ $MPI_MODE == "OpenMPI" ]]
+then
+  spack load "py-mpi4py^openmpi"
+  spack load "stc^openmpi"
+elif [[ $MPI_MODE == "MPICH" ]]
+then
+  spack load "py-mpi4py^mpich"
+else
+  echo "Bad MPI mode!  '$MPI_MODE'"]
+  exit 1
+fi
+
+# spack load stc
+# SPACK SETTINGS END:
+
+echo "USING:"
+which python swift-t
 
 # export HASH_MPI=openmpi-3.1.2-z6mtvidhv5je6gwxoc57fwqzoll2w5i2
 # export HASH_STC=stc-0.7.4-2rigcsxs3wig3eeeia5bqrc3je5je2x6
