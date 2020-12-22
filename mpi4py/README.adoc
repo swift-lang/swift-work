@@ -141,3 +141,7 @@ Use of constructed communicator from Swift
 In test-6.swift, see the section USER CODE GOES HERE.
 We can put your Python code here that uses the given communicator.
 We can also extend test-6.swift to be a real workflow.
+
+== Troubleshooting
+
+* Be sure to make clean when switching MPI
