@@ -1,5 +1,8 @@
+
+# TEST 3 PY
+
 print("test_3.py ...")
-import sys, traceback
+import os, sys, traceback
 print("mpi4py ...") ; sys.stdout.flush()
 from mpi4py import MPI
 print("mpi4py OK ...") ; sys.stdout.flush()
@@ -15,10 +18,13 @@ def go(comm_int):
     comm.barrier()
 
     try:
-        # # OpenMPI mode (from Zaki)
-        comm_pointer = ctypes.c_void_p
-        # MPICH mode:
-        # comm_pointer = ctypes.c_int
+        mpi_mode = os.getenv("MPI_MODE")
+        if mpi_mode == "OpenMPI":
+            comm_pointer = ctypes.c_void_p
+        elif mpi_mode == "MPICH":
+            comm_pointer = ctypes.c_int
+        else:
+            raise Exception("Set MPI_MODE!")
         newcomm = MPI.Intracomm()
         print("go(): comm_int: ", comm_int)
         sys.stdout.flush()
