@@ -30,11 +30,7 @@ fi
 # spack load mpi
 
 # MPICH (Bebop)
-# spack load mpich
-
-# spack load mpich
-
-spack load openmpi
+spack load mpich          || exit 1
 
 echo "USING MPI:"
 which mpicc
