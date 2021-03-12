@@ -72,6 +72,8 @@ $ PATH=/home/woz/Public/sfw/bebop/login/mpich-3.1.2/bin:$PATH
 $ spack external find
 # Check installations
 $ spack find
+# Install external MPICH (the one found above)
+$ spack install mpich
 # Add Swift/T after use of 'external find'
 $ module load jdk/8u172-b11-of5fvnd
 $ PATH=/home/woz/Public/sfw/bebop/login/swift-t/2020-12-16/stc/bin
