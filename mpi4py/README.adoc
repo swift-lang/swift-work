@@ -146,6 +146,11 @@ test-6::
 (Swift)
 Use of constructed communicator from Swift
 
+test-7::
+(Swift)
+python_persist() + python_parallel_persist()
+(from Eric Tatara)
+
 == Next steps
 
 In test-6.swift, see the section USER CODE GOES HERE.
