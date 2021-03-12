@@ -1,7 +1,7 @@
 
 = Summit
 
-== Setup
+== Install
 
 Starting with fresh Spack:
 
@@ -21,6 +21,15 @@ $ spack install "py-mpi4py^python@3.6.12^spectrum-mpi@10.3.1.02rtm0"
 ----
 
 Update the ../../Makefile to uncomment the Summit settings
+
+== Setup
+
+. Add Spack to PATH
+. Turn on the Spack shell support, then:
+
+----
+$ spack load py-mpi4py
+----
 
 == Tests
 

@@ -49,4 +49,4 @@ CFLAGS = -g -Wall -O0 -fPIC $(DEFINES) $(INCLUDES) -fdiagnostics-color=always
 .PRECIOUS: %.o
 
 clean:
-	@ rm -rfv *.x *.o *.tic __pycache__
+	@ rm -rfv *.x *.o *.tic __pycache__ */*/core.*
