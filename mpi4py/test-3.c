@@ -47,6 +47,8 @@ main()
     return EXIT_FAILURE;
   }
   if (rank == 0) printf("result: %s\n", result);
+  MPI_Comm_free(&comm2);
+  MPI_Comm_free(&comm);
   python_finalize();
   free(result);
   MPI_Finalize();
