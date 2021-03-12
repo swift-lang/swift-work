@@ -88,6 +88,14 @@ $ spack install "py-mpi4py"
 
 The Makefile contains entries for Bebop.
 
+==== Installations
+
+Wozniak development:
+
+----
+~woz/proj/spack/bebop-mpich-mpi4py
+----
+
 === Makefile
 
 Edit the Makefile to select your Python home directory and version numbers.  The Makefile is used automatically below.
