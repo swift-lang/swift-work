@@ -36,11 +36,15 @@ def go(comm_int):
         print("go(): barrier ok")
         sys.stdout.flush()
         # USER CODE END.
+
     except Exception as e:
         info = sys.exc_info()
         s = traceback.format_tb(info[2])
         print(str(e) + ' ... \\n' + ''.join(s))
         sys.stdout.flush()
+        return "ERROR"
+    print("")
+    return 42
 
 
 # # MPICH mode:

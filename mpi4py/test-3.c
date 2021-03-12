@@ -25,7 +25,7 @@ main()
   unsigned long long int comm_int;
   comm_int = (unsigned long long int) comm;
   printf("C comm: %llu\n", comm_int);
-  sprintf(code, "test_3.go(%llu)", comm_int);
+  sprintf(code, "result = test_3.go(%llu)", comm_int);
   if (rank == 0) { printf("%s\n", code); fflush(stdout); }
 
   python_code(code);
@@ -34,12 +34,12 @@ main()
   MPI_Comm_split(comm, rank%2, rank, &comm2);
   comm_int = (unsigned long long int) comm2;
   printf("C comm: %llu\n", comm_int);
-  sprintf(code, "test_3.go(%llu)", comm_int);
+  sprintf(code, "result = test_3.go(%llu)", comm_int);
   python_code(code);
   python_code(code);
   python_code(code);
   python_code(code);
-  bool rc = python_eval("repr(42)", &result);
+  bool rc = python_eval("repr(result)", &result);
    // if (rank == 0) printf("rc: %i\n", rc);
   if (!rc)
   {
