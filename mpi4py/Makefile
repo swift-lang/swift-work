@@ -37,7 +37,8 @@ RPATHS   = -Wl,-rpath -Wl,$(PYTHON_HOME)/lib
 DEFINES = -DPYTHON_VERSION_MAJOR=$(PYTHON_VERSION_MAJOR)
 
 CC = mpicc
-CFLAGS = -g -Wall -O0 -fPIC $(DEFINES) $(INCLUDES) -fdiagnostics-color=always
+CFLAGS = -g -Wall -Werror -O0 -fPIC $(DEFINES) $(INCLUDES) \
+         -fdiagnostics-color=always
 
 %.o: %.c py.c
 
