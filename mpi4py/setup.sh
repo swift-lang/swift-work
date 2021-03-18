@@ -31,11 +31,17 @@ fi
 
 # MPICH (Bebop)
 # spack load mpich      || exit 1
+module swap intel gcc/7.1.0-4bgguyp
+module list
+module load jdk/8u172-b11-of5fvnd
+PATH=/home/woz/Public/sfw/bebop/login/mpich-3.1.2/bin:$PATH
+PATH=/home/woz/Public/sfw/bebop/login/swift-t/2021-03-18/stc/bin:$PATH
+DIST=()
 
 # MPICH (Dunedin)
-spack load mpich python py-mpi4py  || exit 1
-PATH=$HOME/sfw/swift-t-mpich/stc/bin:$PATH
-DIST=( ~/proj/spack/mpi4py-mpich/opt/spack/linux-ubuntu20.04-broadwell/gcc-9.3.0/py-mpi4py-*/lib/python3/dist-packages )
+# spack load mpich python py-mpi4py  || exit 1
+# PATH=$HOME/sfw/swift-t-mpich/stc/bin:$PATH
+# DIST=( ~/proj/spack/mpi4py-mpich/opt/spack/linux-ubuntu20.04-broadwell/gcc-9.3.0/py-mpi4py-*/lib/python3/dist-packages )
 
 # OpenMPI (Dunedin)
 # spack load openmpi python py-mpi4py  || exit 1

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-for N in $( seq 1 6 )
+for N in $( seq 1 7 )
 do
   echo TEST $N
   echo
