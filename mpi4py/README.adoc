@@ -166,6 +166,12 @@ test-7::
 python_persist() + python_parallel_persist()
 (from Eric Tatara)
 
+test-8::
+(Swift)
+python_persist() + python_parallel_persist()
+Like test-8 but uses the convenient turbine_helpers API
+
+
 == Next steps
 
 In test-6.swift, see the section USER CODE GOES HERE.
