@@ -18,13 +18,19 @@ def go(comm_int):
     comm.barrier()
 
     try:
-        mpi_mode = os.getenv("MPI_MODE")
-        if mpi_mode == "OpenMPI":
+        mpi_impl = os.getenv("MPI_IMPL")
+        if mpi_impl == "OpenMPI":
             comm_pointer = ctypes.c_void_p
-        elif mpi_mode == "MPICH":
+        elif mpi_impl == "MPICH":
             comm_pointer = ctypes.c_int
         else:
-            raise Exception("Set MPI_MODE!")
+            raise Exception("Set MPI_IMPL!")
+
+        if MPI._sizeof(MPI.Comm) == ctypes.sizeof(ctypes.c_int):
+            print("MPI.Comm is c_int") ; sys.stdout.flush()
+        else:
+            print("MPI.Comm is c_void_p") ; sys.stdout.flush()
+
         newcomm = MPI.Intracomm()
         print("go(): comm_int: ", comm_int)
         sys.stdout.flush()
@@ -53,7 +59,7 @@ def go(comm_int):
     return 42
 
 
-# # MPICH mode:
+# # MPICH impl:
 # MPI_Comm = ctypes.c_int
 # # MPI_Comm.from_address(comm_int)
 # newcomm = MPI.Intracomm()
