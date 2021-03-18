@@ -12,7 +12,7 @@ then
 fi
 SPACK_HOME=$( dirname $( dirname $( readlink --canonicalize $SPACK ) ) )
 echo SPACK_HOME=$SPACK_HOME
-if [[ ${#LMOD_CMD} == "" ]]
+if [[ ${LMOD_CMD:-} == "" ]]
 then
   # Set up environment modules if not using Lmod:
   . /usr/share/modules/init/bash
