@@ -1,13 +1,13 @@
 
 # TEST 8 PY
 
-import turbine_helpers as TH
+import turbine_helpers
 
 # The user result
 result = None
 
 def f(msg):
-    comm = TH.get_task_comm()
+    comm = turbine_helpers.get_task_comm()
 
     # This is not needed for basic uses:
     # from mpi4py import MPI
