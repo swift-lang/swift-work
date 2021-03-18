@@ -18,7 +18,7 @@ set -eu
 
 make test-$TEST.x
 
-if [[ $MPI_MODE == "OpenMPI" ]]
+if [[ $MPI_IMPL == "OpenMPI" ]]
 then
   TAG="--tag-output"
 else

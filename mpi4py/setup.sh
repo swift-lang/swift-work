@@ -30,36 +30,57 @@ fi
 # spack load mpi
 
 # MPICH (Bebop)
-spack load mpich          || exit 1
+# spack load mpich      || exit 1
+
+# MPICH (Dunedin)
+spack load mpich python py-mpi4py  || exit 1
+PATH=$HOME/sfw/swift-t-mpich/stc/bin:$PATH
+DIST=( ~/proj/spack/mpi4py-mpich/opt/spack/linux-ubuntu20.04-broadwell/gcc-9.3.0/py-mpi4py-*/lib/python3/dist-packages )
+
+# OpenMPI (Dunedin)
+# spack load openmpi python py-mpi4py  || exit 1
+# PATH=$HOME/sfw/swift-t-openmpi/stc/bin:$PATH
+# DIST=( ~/proj/spack/mpi4py-openmpi/opt/spack/linux-ubuntu20.04-broadwell/gcc-9.3.0/py-mpi4py-*/lib/python3/dist-packages )
+
+spack find --loaded
+echo PP: $PYTHONPATH
+
+# PYTHONPATH=/usb3/wozniak/proj/spack/mpi4py-mpich/opt/spack/linux-ubuntu20.04-broadwell/gcc-9.3.0/py-mpi4py-3.0.3-kr3pohgnqy4a3yoi4p4ippm2b4qt4hrx/lib/python3/dist-packages:$PYTHONPATH
+
+PYTHONPATH=$DIST:$PYTHONPATH
+
+echo PP: $PYTHONPATH
+
+# python3
 
 echo "USING MPI:"
 which mpicc
 
-# Detect MPI mode:
+# Detect MPI impl:
 if mpiexec -h | grep -q OpenRTE
 then
-  export MPI_MODE="OpenMPI"
+  export MPI_IMPL="OpenMPI"
 elif mpiexec -h | grep -q mpich.org
 then
-  export MPI_MODE="MPICH"
+  export MPI_IMPL="MPICH"
 else
-  echo "Could not detect MPI mode!"]
+  echo "Could not detect MPI impl!"]
   exit 1
 fi
 
-echo MPI_MODE=$MPI_MODE
+echo MPI_IMPL=$MPI_IMPL
 
 # SPACK MPI APPS SETTINGS:
 
-if [[ $MPI_MODE == "OpenMPI" ]]
+if [[ $MPI_IMPL == "OpenMPI" ]]
 then
   spack load "py-mpi4py^openmpi"
-  spack load "stc^openmpi"
-elif [[ $MPI_MODE == "MPICH" ]]
+  # spack load "stc^openmpi"
+elif [[ $MPI_IMPL == "MPICH" ]]
 then
   spack load "py-mpi4py^mpich"
 else
-  echo "Bad MPI mode!  '$MPI_MODE'"]
+  echo "Bad MPI impl!  '$MPI_IMPL'"]
   exit 1
 fi
 
