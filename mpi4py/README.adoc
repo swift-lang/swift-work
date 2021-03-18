@@ -1,4 +1,6 @@
 
+:toc:
+
 == Overview
 
 These tests try to call mpi4py on a subcommunicator created by a C program.
@@ -58,7 +60,9 @@ $ spack install "turbine+python^openmpi^python@3.7.3"
 $ spack install "stc^turbine+python^openmpi^python@3.7.3"
 ----
 
-=== Bebop
+=== Sites
+
+==== Bebop
 
 Update setup.sh to select the Spack settings for Bebop.
 
@@ -88,13 +92,24 @@ $ spack install "py-mpi4py"
 
 The Makefile contains entries for Bebop.
 
-==== Installations
+===== Installations
 
 Wozniak development:
 
 ----
 ~woz/proj/spack/bebop-mpich-mpi4py
 ----
+
+==== Dunedin
+
+* Clean Spack
+* spack external find
+* Either
+** spack install mpich OR
+** spack install openmpi@4.0.1
+* spack install py-mpi4py   (possibly "^openmpi@4.0.1")
+* Make sure setup.sh is consistent:
+** Spack, MPI_IMPL, Swift/T, and PYTHONPATH
 
 === Makefile
 
