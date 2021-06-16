@@ -1,0 +1,88 @@
+
+WLM: Workflow Lock Manager
+
+WLMPY: Workflow Lock Manager Python Interface
+
+== Idea
+
+Sets up a special rank, the *manager*.  To acquire the lock, a client sends an MPI message to the manager and receives a response.  Since the manager is single threaded, and blocks while waiting for the client to release the lock, only one rank will have the lock at a time.
+
+== File index
+
+lock-mgr.[ch]::
+The core C/MPI functionality
+
+wlm.i::
+The SWIG interface file
+
+log.[ch]::
+Logging features for WLM
+
+profile.[ch]::
+Profiling features for WLM
+
+time_double.h::
+Just to get the time in a consistent way
+
+=== Tests
+
+Run the Python tests with run-py.sh and the Swift/T tests with run-swift.sh
+
+----
+$ test/run-py.sh test/test-0.sh
+----
+
+== Sample output
+
+=== test-5: Plain Python DB inserts
+
+----
+$ test/run-py.sh 4 test/test-5.py
+make: Nothing to be done for 'all'.
++ mpiexec -l -n 4 python test/test-5.py
+[3] rank: 3/4
+[0] rank: 0/4
+[0] connect: rank=0[0]
+[3] wlm: 0.000000 starting client
+[2] rank: 2/4
+[2] wlm: 0.000000 starting client
+[1] rank: 1/4
+[1] wlm: 0.000000 starting client
+[0] wlm: 0.000000 starting manager
+[3] connect: rank=3[3]
+[1] connect: rank=1[1]
+[2] connect: rank=2[2]
+[3] wlm: 0.080000 shutdown
+[0] wlm: 0.072000 received shutdown from rank: 3
+[2] wlm: 0.117000 shutdown
+[0] wlm: 0.120000 received shutdown from rank: 2
+[1] wlm: 0.171000 shutdown
+[0] wlm: 0.172000 received shutdown from rank: 1
+[0] wlm: time    total: 0.1710
+[0] wlm: time unlocked: 0.132
+[0] wlm: time   locked: 0.039
+[0] wlm: busy fraction: 22.807 %
+[0] wlm:         locks: 3
+[0] wlm:       locks/s: 17.54
+----
+
+=== test-6: Swift/T lock acquisition
+
+----
+$ test/run-swift.sh 4 test/test-6.swift
+make: Nothing to be done for 'all'.
++ swift-t -l -n 4 test/test-6.swift
+[1] wlm: 0.000000 starting client
+[2] wlm: 0.000000 starting client
+[0] wlm: 0.000000 starting manager
+[2] wlm: 0.076000 shutdown
+[0] wlm: 0.064000 received shutdown from rank: 2
+[1] wlm: 0.102000 shutdown
+[0] wlm: 0.088000 received shutdown from rank: 1
+[0] wlm: time    total: 0.0900
+[0] wlm: time unlocked: 0.078
+[0] wlm: time   locked: 0.012
+[0] wlm: busy fraction: 13.333 %
+[0] wlm:         locks: 2
+[0] wlm:       locks/s: 22.22
+----

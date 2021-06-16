@@ -1,0 +1,34 @@
+
+= TACC Tests
+
+== Scheduled job
+
+Run with:
+
+----
+$ ./run-swift.sh test-0.swift
+----
+
+== Interactive job
+
+----
+$ idev -N 2
+...
+ -> job status:  R
+...
+$ ibrun -n 2 echo HI
+TACC:  Starting up job 6509196
+TACC:  Starting parallel tasks...
+HI
+HI
+TACC:  Shutdown complete. Exiting.
+$ ./interactive-tcl.sh
+HI
+HI
+$ ./interactive-turbine-0.sh
+HI
+HI
+$ stc test-0.swift
+$ ./interactive-turbine.sh test-0.tic
+trace: 42
+----

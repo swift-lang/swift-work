@@ -1,0 +1,183 @@
+
+:toc:
+
+== Overview
+
+These tests try to call mpi4py on a subcommunicator created by a C program.
+
+Ultimately, the goal is to
+
+. Run arbitrary mpi4py codes in-memory from Swift/T
+. Run Horovod in-memory from Swift/T
+
+The C-Python stuff is in py.c, copied from
+https://github.com/ECP-CANDLE/Supervisor/tree/master/scratch/py-eval
+
+We suspect this is easier if we have mpi4py built from source.  Thus, we are using Spack to help with this.  To test with just C and Python, you just need:
+
+----
+$ spack install "openmpi@VERSION"
+$ spack install "py-mpi4py ^openmpi@VERSION"
+----
+
+where VERSION is 4.0.5 (2020-12-14)
+
+or:
+
+----
+$ spack install mpich python py-mpi4py
+----
+
+To run with Swift/T, you will need:
+
+----
+$ spack install "stc@master^openmpi@VERSION"
+----
+
+or:
+
+----
+$ spack install stc@master
+----
+
+If these Spack commands try to install a whole bunch of other stuff, contact Wozniak for a packages.yaml that can help.
+
+== Setup
+
+Using 'spack load' - see setup.sh
+
+=== Install
+
+==== From Spack
+
+Install:
+
+----
+$ spack install openmpi
+$ spack install python@3.7.3
+$ spack install "py-mpi4py^python@3.7.3^openmpi"
+$ spack install "turbine+python^openmpi^python@3.7.3"
+$ spack install "stc^turbine+python^openmpi^python@3.7.3"
+----
+
+=== Sites
+
+==== Bebop
+
+Update setup.sh to select the Spack settings for Bebop.
+
+Starting with fresh Spack:
+
+----
+$ module load gcc/7.1.0-4bgguyp
+$ module load python/3.6.2-3dp4bht
+$ PATH=/home/woz/Public/sfw/bebop/login/mpich-3.1.2/bin:$PATH
+# This should find Python and MPICH:
+$ spack external find
+# Check installations
+$ spack find
+# Install external MPICH (the one found above)
+$ spack install mpich
+# Add Swift/T after use of 'external find'
+$ module load jdk/8u172-b11-of5fvnd
+$ PATH=/home/woz/Public/sfw/bebop/login/swift-t/2020-12-16/stc/bin
+----
+
+Install mpi4py
+
+----
+$ spack install "py-mpi4py"
+# (also installs py-setuptools)
+----
+
+The Makefile contains entries for Bebop.
+
+===== Installations
+
+Wozniak development:
+
+----
+~woz/proj/spack/bebop-mpich-mpi4py
+----
+
+==== Dunedin
+
+* Clean Spack
+* spack external find
+* Either
+** spack install mpich OR
+** spack install openmpi@4.0.1
+* spack install py-mpi4py   (possibly "^openmpi@4.0.1")
+* Make sure setup.sh is consistent:
+** Spack, MPI_IMPL, Swift/T, and PYTHONPATH
+
+=== Makefile
+
+Edit the Makefile to select your Python home directory and version numbers.  The Makefile is used automatically below.
+
+== Run
+
+The test scripts automatically source +setup.sh+ and run +make+ as necessary.
+
+Simply run the test number you want:
+
+----
+$ ./test-1.sh # or 2..6
+# or
+$ ./test-all.sh
+----
+
+To run Horovod, you need MPI threading support:
+
+----
+export TURBINE_MPI_THREAD=1
+----
+
+== Test summary
+
+test-1::
+(C&#8203;)
+Plain use of py.c
+
+test-2::
+(C&#8203;)
+Use of mpi4py from py.c .  Requires mpi4py built from
+source, so use Spack for Python and mpi4py and MPI.
+
+test-3::
+(C,Python)
+Use of constructed communicator in mpi4py . +
+Works in MPICH and OpenMPI.
+
+test-4::
+(Swift)
+Plain use of python()
+
+test-5::
+(Swift)
+'import mpi4py' from Swift/T
+
+test-6::
+(Swift)
+Use of constructed communicator from Swift
+
+test-7::
+(Swift)
+python_persist() + python_parallel_persist()
+(from Eric Tatara)
+
+test-8::
+(Swift)
+python_persist() + python_parallel_persist()
+Like test-8 but uses the convenient turbine_helpers API
+
+
+== Next steps
+
+In test-6.swift, see the section USER CODE GOES HERE.
+We can put your Python code here that uses the given communicator.
+We can also extend test-6.swift to be a real workflow.
+
+== Troubleshooting
+
+* Be sure to make clean when switching MPI

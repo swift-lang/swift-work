@@ -1,0 +1,33 @@
+
+== Simple bash cases with file dependencies
+
+=== S1
+
+This case just illustrates how to call a shell script from Swift/T.
+
+----
+$ swift-t s1.swift 
+command.sh /dev/null newfile.txt
+----
+
+Note that input() tells Swift/T that the file is an input file and
+already exists.
+
+=== S2
+
+This case shows how to set up file dependencies from Swift/T.
+
+* The flag -l prepends rank numbers to the output.
+* The flag -n 3 provides 2 workers, 1 Swift/T server. +
+  (The default is -n 2 , 1 worker, 1 server.)
+
+As shown, files b and c are created concurrently on different ranks,
+creating a diamond dataflow pattern.
+
+----
+$ swift-t -l -n 3 s2.swift
+[1] command.sh /dev/null -- a.txt         #    A
+[1] command.sh a.txt -- c.txt             #   C \
+[0] command.sh a.txt -- b.txt             #    \ B 
+[0] command.sh b.txt c.txt -- d.txt       #     D
+----

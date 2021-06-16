@@ -1,0 +1,3 @@
+*.o
+*.py
+wlm_wrap.c
