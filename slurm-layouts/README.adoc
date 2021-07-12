@@ -1,0 +1,26 @@
+
+== Overview
+
+Test MPI layouts under SLURM.  The specific goal here is to simply run an MPI job that puts each rank on its own node, and the final two ranks on the same node.
+
+== Scripts
+
+=== Tasks
+
+The MPI jobs, which are just shell scripts that report their `HOST RANK PID`.
+
+task-pmi::
+Report rank using `PMI_RANK`
+
+task-pmix::
+Report rank using `PMIX_RANK`
+
+=== Launchers
+
+The launchers and their flags should be able to produce the layout we want.  We have not found a working approach yet.
+
+launch-srun::
+Launch the task using `srun`- results in a PMI environment +
+
+launch-ompi::
+Launch the task using `mpirun`- results in a PMIx environment

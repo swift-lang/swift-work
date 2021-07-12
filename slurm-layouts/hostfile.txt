@@ -1,0 +1,4 @@
+bdw-0025 slots=1
+bdw-0526 slots=1
+bdw-0527 slots=2
+# bdw-0009:1,bdw-0564:1,bdw-0566:2
