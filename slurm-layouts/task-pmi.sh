@@ -1,4 +1,5 @@
 #!/bin/sh
 
-echo $PMI_RANK $(hostname) $$
+echo $PMI_RANK $(hostname) $$ $*
+sleep 1
 # printenv
