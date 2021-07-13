@@ -143,3 +143,36 @@ $ mpiexec -n 4 -f hostfile-mpich-02.txt ./task-pmi.sh
 3 bdw-0163 29145
 2 bdw-0163 29144
 ----
+
+=== SRUN
+
+==== 01
+
+----
+$ srun -n 4 --ntasks-per-node 1 ./task-pmi.sh
+0 bdw-0161 15276
+3 bdw-0161 15277
+1 bdw-0162 15212
+2 bdw-0163 29930
+----
+
+==== 02
+
+----
+$ srun -n 2 --ntasks-per-node 1 ./task-pmi.sh \
+       -n 2 --ntasks-per-node 2 ./task-pmi.sh
+0 bdw-0161 15276
+3 bdw-0161 15277
+1 bdw-0162 15212
+2 bdw-0163 29930
+----
+
+==== 03
+
+----
+$ srun -n 3                                        \
+       --cpus-per-task=48 --ntasks=2 ./task-pmi.sh \
+       --cpus-per-task=24 --ntasks=2 ./task-pmi.sh
+srun: Warning: can't run 2 processes on 3 nodes, setting nnodes to 2
+srun: error: Unable to create step for job 2173115: More processors requested than permitted
+----
