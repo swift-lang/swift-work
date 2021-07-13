@@ -49,12 +49,12 @@ bdw-0236 14384 PMI:1/2 OMPI:1/3
 ==== 02
 
 ----
-$ cat hostfile-02.txt
+$ cat hostfile-ompi-02.txt
 bdw-0235 slots=1
 bdw-0236 slots=1
 bdw-0237 slots=2
 
-$ mpirun -hostfile hostfile-02.txt ./task-pmix.sh
+$ mpirun -hostfile hostfile-ompi-02.txt ./task-pmix.sh
 bdw-0235 3037  PMI:0/3 OMPI:0/3
 bdw-0236 14528 PMI:1/2 OMPI:1/3
 bdw-0237 30500 PMI:2/2 OMPI:2/3
@@ -63,7 +63,7 @@ bdw-0237 30500 PMI:2/2 OMPI:2/3
 ==== 03
 
 ----
-$ mpirun -n 4 -hostfile hostfile-02.txt ./task-pmix.sh
+$ mpirun -n 4 -hostfile hostfile-ompi-02.txt ./task-pmix.sh
 There are not enough slots available in the system to satisfy the 4
 slots that were requested by the application
 ----
@@ -73,7 +73,7 @@ This is a bug or I have a fundamental misunderstanding of how this is supposed t
 ==== 04
 
 ----
-$ mpirun -n 4 --oversubscribe -hostfile hostfile-02.txt ./task-pmix.sh
+$ mpirun -n 4 --oversubscribe -hostfile hostfile-ompi-02.txt ./task-pmix.sh
 bdw-0235 3214  PMI:0/3 OMPI:0/4
 bdw-0235 3215  PMI:1/3 OMPI:1/4
 bdw-0236 14691 PMI:2/2 OMPI:2/4
@@ -93,7 +93,7 @@ rank 3=bdw-0237 slots=1
 
 $ mpirun \
        -rankfile rankfile-05.txt \
-       -hostfile hostfile-02.txt \
+       -hostfile hostfile-ompi-02.txt \
        ./task-pmix.sh | sort
 
 There are not enough slots available in the system to satisfy the 2
@@ -107,7 +107,7 @@ Why 2 slots requested?
 ----
 $ mpirun -n 4 \
        -rankfile rankfile-05.txt \
-       -hostfile hostfile-02.txt \
+       -hostfile hostfile-ompi-02.txt \
        ./task-pmix.sh | sort
 
 There are not enough slots available in the system to satisfy the 2
