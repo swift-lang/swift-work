@@ -176,3 +176,86 @@ $ srun -n 3                                        \
 srun: Warning: can't run 2 processes on 3 nodes, setting nnodes to 2
 srun: error: Unable to create step for job 2173115: More processors requested than permitted
 ----
+
+=== Swift/T
+
+==== 01
+
+Default layout: server with worker on first host
+
+----
+$ cat hostfile-swift-mpich-01.txt
+bdwd-0046
+bdwd-0047
+bdwd-0049
+
+$ swift-t -l \
+          -n 4 \
+          -t f:hostfile-swift-mpich-01.txt \
+          workflow-01.swift
+
+[0] HOSTMAP: bdwd-0046 -> 0
+[0] HOSTMAP: bdwd-0047 -> 1
+[0] HOSTMAP: bdwd-0049 -> 2
+[0] HOSTMAP: bdwd-0046 -> 3
+[2] 2 bdwd-0049 23916 1
+[1] 1 bdwd-0047 19882 0
+[0] 0 bdwd-0046 36246 2
+[1] 1 bdwd-0047 19886 3
+[2] 2 bdwd-0049 23919 4
+----
+
+==== 02
+
+Desired layout: server with worker on last host:
+
+----
+$ cat hostfile-swift-mpich-02.txt
+bdwd-0046:1
+bdwd-0047:1
+bdwd-0049:2
+
+$ swift-t -l \
+          -n 4 \
+          -t f:hostfile-swift-mpich-02.txt \
+          workflow-01.swift
+
+[0] HOSTMAP: bdwd-0046 -> 0
+[0] HOSTMAP: bdwd-0047 -> 1
+[0] HOSTMAP: bdwd-0049 -> 2
+[0] HOSTMAP: bdwd-0049 -> 3
+[0] 0 bdwd-0046 36499 2
+[1] 1 bdwd-0047 20026 0
+[2] 2 bdwd-0049 24077 1
+[1] 1 bdwd-0047 20029 4
+[0] 0 bdwd-0046 36503 3
+----
+
+==== 03
+
+Desired layout: special type task with worker on last host:
+
+----
+$ cat hostfile-swift-mpich-02.txt
+bdwd-0046:1
+bdwd-0047:1
+bdwd-0049:2
+
+$ swift-t -l \
+          -n 4 \
+          -t f:hostfile-swift-mpich-02.txt \
+          workflow-03.swift
+
+[0] HOSTMAP: bdwd-0046 -> 0
+[0] HOSTMAP: bdwd-0047 -> 1
+[0] HOSTMAP: bdwd-0049 -> 2
+[0] HOSTMAP: bdwd-0049 -> 3
+[1] 1 bdwd-0047 20551 0
+[0] 0 bdwd-0046 1263 1
+[2] resident task
+[1] 1 bdwd-0047 20554 4
+[0] 0 bdwd-0046 1267 3
+[0] 0 bdwd-0046 1270 2
+----
+
+As shown, the resident task and server are on ranks 2 and 3 of host 0049.  No default work is run there.
