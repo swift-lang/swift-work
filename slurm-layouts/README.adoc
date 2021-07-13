@@ -128,3 +128,18 @@ $ mpiexec ./task-pmi.sh
 ----
 
 ==== 02
+
+This actually does what we want:
+
+----
+$ cat hostfile-mpich-02.txt
+bdw-0161:1
+bdw-0162:1
+bdw-0163:2
+
+$ mpiexec -n 4 -f hostfile-mpich-02.txt ./task-pmi.sh
+0 bdw-0161 14367
+1 bdw-0162 14469
+3 bdw-0163 29145
+2 bdw-0163 29144
+----
