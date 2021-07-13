@@ -5,6 +5,12 @@ Test MPI layouts under SLURM.  The specific goal here is to simply run an MPI jo
 
 == Scripts
 
+=== Modules
+
+Source these to setup:
+
+* load-openmpi
+
 === Tasks
 
 The MPI jobs, which are just shell scripts that report their `HOST RANK PID`.
@@ -24,3 +30,90 @@ Launch the task using `srun`- results in a PMI environment +
 
 launch-ompi::
 Launch the task using `mpirun`- results in a PMIx environment
+
+== Results
+
+Starting with a 3-node interactive session.
+
+=== launch-ompi
+
+==== 01
+
+----
+$ mpirun ./task-pmix.sh
+bdw-0235 2892  PMI:0/3 OMPI:0/3
+bdw-0237 30360 PMI:2/2 OMPI:2/3
+bdw-0236 14384 PMI:1/2 OMPI:1/3
+----
+
+==== 02
+
+----
+$ cat hostfile-02.txt
+bdw-0235 slots=1
+bdw-0236 slots=1
+bdw-0237 slots=2
+
+$ mpirun -hostfile hostfile-02.txt ./task-pmix.sh
+bdw-0235 3037  PMI:0/3 OMPI:0/3
+bdw-0236 14528 PMI:1/2 OMPI:1/3
+bdw-0237 30500 PMI:2/2 OMPI:2/3
+----
+
+==== 03
+
+----
+$ mpirun -n 4 -hostfile hostfile-02.txt ./task-pmix.sh
+There are not enough slots available in the system to satisfy the 4
+slots that were requested by the application
+----
+
+This is a bug or I have a fundamental misunderstanding of how this is supposed to work.
+
+==== 04
+
+----
+$ mpirun -n 4 --oversubscribe -hostfile hostfile-02.txt ./task-pmix.sh
+bdw-0235 3214  PMI:0/3 OMPI:0/4
+bdw-0235 3215  PMI:1/3 OMPI:1/4
+bdw-0236 14691 PMI:2/2 OMPI:2/4
+bdw-0237 30654 PMI:3/2 OMPI:3/4
+----
+
+Again, appears to be ignoring slots.
+
+==== 05
+
+----
+$ cat rankfile-05.txt
+rank 0=bdw-0235 slots=1
+rank 1=bdw-0236 slots=1
+rank 2=bdw-0237 slots=1
+rank 3=bdw-0237 slots=1
+
+$ mpirun \
+       -rankfile rankfile-05.txt \
+       -hostfile hostfile-02.txt \
+       ./task-pmix.sh | sort
+
+There are not enough slots available in the system to satisfy the 2
+slots that were requested by the application:
+----
+
+Why 2 slots requested?
+
+==== 06
+
+----
+$ mpirun -n 4 \
+       -rankfile rankfile-05.txt \
+       -hostfile hostfile-02.txt \
+       ./task-pmix.sh | sort
+
+There are not enough slots available in the system to satisfy the 2
+slots that were requested by the application:
+----
+
+Why 2 slots requested?
+
+=== MPICH

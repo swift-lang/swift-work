@@ -1,0 +1,8 @@
+rank 0=bdw-0235 slots=1
+rank 1=bdw-0236 slots=1
+rank 2=bdw-0237 slots=1
+rank 3=bdw-0237 slots=1
+#
+#
+#
+#
