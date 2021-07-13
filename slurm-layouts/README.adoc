@@ -117,3 +117,14 @@ slots that were requested by the application:
 Why 2 slots requested?
 
 === MPICH
+
+==== 01
+
+----
+$ mpiexec ./task-pmi.sh
+0 bdw-0161 14110
+1 bdw-0162 14281
+2 bdw-0163 28954
+----
+
+==== 02
