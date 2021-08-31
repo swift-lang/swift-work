@@ -2,6 +2,7 @@
 /**
    SUM ALL SWIFT
    usage: swift-t sum-all.swift data/*.txt
+   This workflow reads the input files in parallel!
 */
 
 import io;
