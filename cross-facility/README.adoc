@@ -1,0 +1,10 @@
+
+= Cross-facility workflow
+
+== Usage:
+
+----
+$ ./run.sh
+----
+
+While this is running, you can change add or remove `*.data` files and `glob()` will pick them up.

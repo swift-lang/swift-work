@@ -1,0 +1,263 @@
+
+:toc:
+
+== Overview
+
+Test MPI layouts under SLURM.  The specific goal here is to simply run an MPI job that puts each rank on its own node, and the final two ranks on the same node.
+
+== Scripts
+
+=== Modules
+
+Source these to setup:
+
+* load-openmpi
+
+=== Tasks
+
+The MPI jobs, which are just shell scripts that report their `HOST RANK PID`.
+
+task-pmi::
+Report rank using `PMI_RANK`
+
+task-pmix::
+Report rank using `PMIX_RANK`
+
+=== Launchers
+
+The launchers and their flags should be able to produce the layout we want.  We have not found a working approach yet.
+
+launch-srun::
+Launch the task using `srun`- results in a PMI environment +
+
+launch-ompi::
+Launch the task using `mpirun`- results in a PMIx environment
+
+== Results
+
+Starting with a 3-node interactive session.
+
+=== launch-ompi
+
+==== 01
+
+----
+$ mpirun ./task-pmix.sh
+bdw-0235 2892  PMI:0/3 OMPI:0/3
+bdw-0237 30360 PMI:2/2 OMPI:2/3
+bdw-0236 14384 PMI:1/2 OMPI:1/3
+----
+
+==== 02
+
+----
+$ cat hostfile-ompi-02.txt
+bdw-0235 slots=1
+bdw-0236 slots=1
+bdw-0237 slots=2
+
+$ mpirun -hostfile hostfile-ompi-02.txt ./task-pmix.sh
+bdw-0235 3037  PMI:0/3 OMPI:0/3
+bdw-0236 14528 PMI:1/2 OMPI:1/3
+bdw-0237 30500 PMI:2/2 OMPI:2/3
+----
+
+==== 03
+
+----
+$ mpirun -n 4 -hostfile hostfile-ompi-02.txt ./task-pmix.sh
+There are not enough slots available in the system to satisfy the 4
+slots that were requested by the application
+----
+
+This is a bug or I have a fundamental misunderstanding of how this is supposed to work.
+
+==== 04
+
+----
+$ mpirun -n 4 --oversubscribe -hostfile hostfile-ompi-02.txt ./task-pmix.sh
+bdw-0235 3214  PMI:0/3 OMPI:0/4
+bdw-0235 3215  PMI:1/3 OMPI:1/4
+bdw-0236 14691 PMI:2/2 OMPI:2/4
+bdw-0237 30654 PMI:3/2 OMPI:3/4
+----
+
+Again, appears to be ignoring slots.
+
+==== 05
+
+----
+$ cat rankfile-05.txt
+rank 0=bdw-0235 slots=1
+rank 1=bdw-0236 slots=1
+rank 2=bdw-0237 slots=1
+rank 3=bdw-0237 slots=1
+
+$ mpirun \
+       -rankfile rankfile-05.txt \
+       -hostfile hostfile-ompi-02.txt \
+       ./task-pmix.sh | sort
+
+There are not enough slots available in the system to satisfy the 2
+slots that were requested by the application:
+----
+
+Why 2 slots requested?
+
+==== 06
+
+----
+$ mpirun -n 4 \
+       -rankfile rankfile-05.txt \
+       -hostfile hostfile-ompi-02.txt \
+       ./task-pmix.sh | sort
+
+There are not enough slots available in the system to satisfy the 2
+slots that were requested by the application:
+----
+
+Why 2 slots requested?
+
+=== MPICH
+
+==== 01
+
+----
+$ mpiexec ./task-pmi.sh
+0 bdw-0161 14110
+1 bdw-0162 14281
+2 bdw-0163 28954
+----
+
+==== 02
+
+This actually does what we want:
+
+----
+$ cat hostfile-mpich-02.txt
+bdw-0161:1
+bdw-0162:1
+bdw-0163:2
+
+$ mpiexec -n 4 -f hostfile-mpich-02.txt ./task-pmi.sh
+0 bdw-0161 14367
+1 bdw-0162 14469
+3 bdw-0163 29145
+2 bdw-0163 29144
+----
+
+=== SRUN
+
+==== 01
+
+----
+$ srun -n 4 --ntasks-per-node 1 ./task-pmi.sh
+0 bdw-0161 15276
+3 bdw-0161 15277
+1 bdw-0162 15212
+2 bdw-0163 29930
+----
+
+==== 02
+
+----
+$ srun -n 2 --ntasks-per-node 1 ./task-pmi.sh \
+       -n 2 --ntasks-per-node 2 ./task-pmi.sh
+0 bdw-0161 15276
+3 bdw-0161 15277
+1 bdw-0162 15212
+2 bdw-0163 29930
+----
+
+==== 03
+
+----
+$ srun -n 3                                        \
+       --cpus-per-task=48 --ntasks=2 ./task-pmi.sh \
+       --cpus-per-task=24 --ntasks=2 ./task-pmi.sh
+srun: Warning: can't run 2 processes on 3 nodes, setting nnodes to 2
+srun: error: Unable to create step for job 2173115: More processors requested than permitted
+----
+
+=== Swift/T
+
+==== 01
+
+Default layout: server with worker on first host
+
+----
+$ cat hostfile-swift-mpich-01.txt
+bdwd-0046
+bdwd-0047
+bdwd-0049
+
+$ swift-t -l \
+          -n 4 \
+          -t f:hostfile-swift-mpich-01.txt \
+          workflow-01.swift
+
+[0] HOSTMAP: bdwd-0046 -> 0
+[0] HOSTMAP: bdwd-0047 -> 1
+[0] HOSTMAP: bdwd-0049 -> 2
+[0] HOSTMAP: bdwd-0046 -> 3
+[2] 2 bdwd-0049 23916 1
+[1] 1 bdwd-0047 19882 0
+[0] 0 bdwd-0046 36246 2
+[1] 1 bdwd-0047 19886 3
+[2] 2 bdwd-0049 23919 4
+----
+
+==== 02
+
+Desired layout: server with worker on last host:
+
+----
+$ cat hostfile-swift-mpich-02.txt
+bdwd-0046:1
+bdwd-0047:1
+bdwd-0049:2
+
+$ swift-t -l \
+          -n 4 \
+          -t f:hostfile-swift-mpich-02.txt \
+          workflow-01.swift
+
+[0] HOSTMAP: bdwd-0046 -> 0
+[0] HOSTMAP: bdwd-0047 -> 1
+[0] HOSTMAP: bdwd-0049 -> 2
+[0] HOSTMAP: bdwd-0049 -> 3
+[0] 0 bdwd-0046 36499 2
+[1] 1 bdwd-0047 20026 0
+[2] 2 bdwd-0049 24077 1
+[1] 1 bdwd-0047 20029 4
+[0] 0 bdwd-0046 36503 3
+----
+
+==== 03
+
+Desired layout: special type task with worker on last host:
+
+----
+$ cat hostfile-swift-mpich-02.txt
+bdwd-0046:1
+bdwd-0047:1
+bdwd-0049:2
+
+$ swift-t -l \
+          -n 4 \
+          -t f:hostfile-swift-mpich-02.txt \
+          workflow-03.swift
+
+[0] HOSTMAP: bdwd-0046 -> 0
+[0] HOSTMAP: bdwd-0047 -> 1
+[0] HOSTMAP: bdwd-0049 -> 2
+[0] HOSTMAP: bdwd-0049 -> 3
+[1] 1 bdwd-0047 20551 0
+[0] 0 bdwd-0046 1263 1
+[2] resident task
+[1] 1 bdwd-0047 20554 4
+[0] 0 bdwd-0046 1267 3
+[0] 0 bdwd-0046 1270 2
+----
+
+As shown, the resident task and server are on ranks 2 and 3 of host 0049.  No default work is run there.

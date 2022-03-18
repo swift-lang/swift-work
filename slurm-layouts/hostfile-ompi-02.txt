@@ -1,0 +1,6 @@
+# Hostfile for OpenMPI.
+# You need to populate this with the output of ./show-hosts
+bdw-0235 slots=1
+bdw-0236 slots=1
+bdw-0237 slots=2
+# bdw-0009:1,bdw-0564:1,bdw-0566:2
