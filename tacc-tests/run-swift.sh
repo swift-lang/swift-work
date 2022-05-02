@@ -3,9 +3,10 @@ set -eu
 
 # RUN SWIFT
 
-PATH=/home1/01163/wozniak/Public/sfw/stampede2/swift-t/2020-09-24/stc/bin:$PATH
+PATH=/work2/01163/wozniak/stampede2/Public/sfw/stampede2/swift-t/2022-04-25/stc/bin:$PATH
 
 export QUEUE=development
 export TURBINE_LAUNCHER=ibrun
 
+which swift-t
 swift-t -m slurm $*
