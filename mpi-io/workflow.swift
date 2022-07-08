@@ -1,7 +1,7 @@
 
 app task()
 {
-  "./task.sh" ;
+  "task.sh" ;
 }
 
 foreach i in [0:3]

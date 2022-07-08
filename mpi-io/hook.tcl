@@ -4,7 +4,7 @@
 #      i.e., once per node.
 
 # Set a root data directory
-set root /home/$env(USER)/data
+set root $env(HOME)/data
 puts "HOOK HOST: [exec hostname]"
 
 # Get the leader communicator from ADLB
@@ -22,12 +22,13 @@ if { $rank == 0 } {
 turbine::c::bcast $comm 0 files
 
 # Make a node-local data directory
-file mkdir /tmp/$env(USER)/data
+set LOCAL /tmp/$env(USR)/data
+file mkdir $LOCAL
 
 # Copy each file to the node-local directory
 foreach f $files {
   if { $rank == 0 } {
     puts "copying: $f"
   }
-  turbine::c::copy_to $comm $f /tmp/$env(USER)/data
+  turbine::c::copy_to $comm $f $LOCAL
 }

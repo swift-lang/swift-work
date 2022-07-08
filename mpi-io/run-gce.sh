@@ -1,6 +1,11 @@
 #!/bin/bash
 
+# RUN GCE
+
 THIS=$( realpath . )
+
+# Rename this for compatibility with other systems (Summit):
+export USR=$USER
 
 swift-t \
   -n 4 \
