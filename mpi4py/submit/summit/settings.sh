@@ -14,5 +14,7 @@ SPACK=$HOME/S/proj/spack.submit
 source $SPACK/share/spack/setup-env.sh
 spack load py-mpi4py
 
+# Settings for Swift/T:
+export MPI_MODE="OpenMPI"
 export TURBINE_LAUNCHER="jsrun"
 export TURBINE_LAUNCH_OPTIONS="--stdio_mode prepended"
