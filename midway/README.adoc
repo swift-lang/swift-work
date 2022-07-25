@@ -13,7 +13,7 @@ $ nice ./test-login.sh hello.swift
 Runs workflow on login nodes
 
 `test-compute.sh`::
-Runs workflow on login nodes.  See settings.sh
+Runs workflow on login nodes.  See `settings.sh`.
 
 `settings.sh`::
 Swift/T `PATH` settings and SLURM job settings (if needed).
