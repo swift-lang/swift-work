@@ -11,9 +11,6 @@ WORKFLOW=$1
 
 THIS=$( readlink --canonicalize $( dirname $0 ) )
 
-source $THIS/settings.sh
+source $THIS/settings-summit.sh
 
-PATH=/home/woz/Public/sfw/bebop/compute/swift-t/2022-07-22/stc/bin:$PATH
-PATH=$THIS:$PATH
-
-swift-t -m slurm $WORKFLOW
+swift-t -m lsf $WORKFLOW

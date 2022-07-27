@@ -1,21 +1,16 @@
 
 # For Python or app workflows:
-NODES=4
-export PPN=2
+NODES=1
+export PPN=4
 export PROCS=$(( PPN * NODES ))
 export ADLB_PAR_MOD=2
 
-export WALLTIME=00:07:00
-export QUEUE=dis
-export PROJECT="CONDO"
+export WALLTIME=00:02:00
+export PROJECT="MED106"
 
-# export TURBINE_STDOUT=out-%r.txt
-# export TURBINE_OUTPUT=$PWD/X
+MED106=/gpfs/alpine/world-shared/med106
+ROOT=$MED106/sw/summit/gcc-7.5.0
+SWIFT=$ROOT/swift-t/2022-07-25/stc
 
-export PYTHONHOME=/soft/anaconda3/2020.07
-export PYTHONPATH=${TOY_HOME:-}
-
-module load gcc/8.2.0-xhxgy33 \
-       mvapich2/2.3-bebop-a66r4jf \
-       anaconda3/2020.11 \
-       intel-mkl/2020.4.304-d6zw4xa
+PATH=$SWIFT/stc/bin:$PATH
+PATH=$THIS:$PATH
