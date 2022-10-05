@@ -1,10 +1,10 @@
 
 app task()
 {
-  "./task.sh" ;
+  "task.sh" ;
 }
 
-for i in [0:10]
+foreach i in [0:3]
 {
   task();
 }

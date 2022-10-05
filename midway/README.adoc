@@ -1,0 +1,41 @@
+
+= Midway examples
+
+== Quick start
+
+----
+$ nice ./test-login.sh hello.swift
+----
+
+== File index
+
+`test-login.sh`::
+Runs workflow on login nodes
+
+`test-compute.sh`::
+Runs workflow on login nodes.  See `settings.sh`.
+
+`settings.sh`::
+Swift/T `PATH` settings and SLURM job settings (if needed).
+
+`hello.swift`::
+Hello world.
+
+`py-1.swift`::
+Simple Python case.
+
+`py-loop-1.swift`::
+Simple Python loop case.
+
+== Compute nodes
+
+To run on the compute nodes:
+
+.  Edit settings.sh to set your `PROJECT` (account) and `QUEUE` (partition).  These variable names are known to Swift/T and are used by it on all schedulers.
+. Run `test-compute.sh`, which provides `-m slurm` to `swift-t`.
+. Swift/T will:
+.. Create and report the name of a new directory for the job, called `TURBINE_OUTPUT`.  This behavior is customizable.
+.. Create and report the name of a new `turbine-slurm.sh` script, which it then submits.  It does not delete this script, so you can inspect it for debugging.
+.. Run the job.  You can check on it using the normal SLURM tools.
+.. Redirect output to `TURBINE_OUTPUT/output.txt`.
+. When the job is done, check `output.txt` for output, timing, and debugging information.

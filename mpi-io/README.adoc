@@ -1,0 +1,45 @@
+
+= MPI-IO Example
+
+This example shows how data from the user's home directory (or any other directory) can be broadcasted to the node-local storage of all compute nodes using MPI-IO, then made available for further workflow processing.
+
+== Quick start on Summit
+
+----
+# Create the real data directory
+$ mkdir ~/data
+# Create some data
+$ touch ~/data/{f,g,h}
+# Run it
+$ ./run-summit.sh
+----
+
+The output.txt will indicate that the data was found by the Swift/T workflow tasks under `/tmp/$USER/data` .
+
+== File index
+
+run-summit.sh::
+Script to submit the workflow on Summit.
+
+run-gce.sh::
+Script to submit the workflow on ANL GCE cluster, could be modified to run on other simple clusters.
+
+settings-summit-med106.sh::
+Example settings for Summit (used by run-summit.sh).
+
+workflow.swift::
+A simple Swift/T workflow to look at the data.
+
+task.sh::
+The task called by workflow.swift, actually looks at the data.
+
+hook.tcl::
+A snippet of Tcl code used by Swift/T at job start time to broadcast the data.
+
+== Mechanism
+
+The Tcl hook is passed to Swift/T via environment variable `TURBINE_LEADER_HOOK_STARTUP`.  This runs exactly once per node, even if multiple ranks are running per node.  It can do anything to set up the node before the workflow starts. In this case, it uses the Turbine Tcl API to broadcast a list of files and then  distribute them using `MPI_File_read_all()`.
+
+== Extension
+
+This workflow could easily be extended, simply by changing the directories used or implementing a more complex workflow.  Other cooperative methods of distributing data or setting up the compute nodes could also be added, such as installing software, setting up a (distributed?) database, setting up a local service, etc.
