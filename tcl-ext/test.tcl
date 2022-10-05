@@ -6,4 +6,6 @@ set libext "./libext[info sharedlibextension]"
 load $libext
 
 # Call the function in the library:
-f
+f1
+
+f2
