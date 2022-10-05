@@ -2,7 +2,7 @@
 CC  = gcc
 STD = -std=gnu99
 
-# Wozniak
+# Dunedin
 # MAC = 0
 # TCL = /usr
 # SO_SUFFIX = so
