@@ -4,9 +4,9 @@ STD = -std=gnu99
 
 # Wozniak
 # MAC = 0
-# TCL = /usr/include/tcl8.6
+# TCL = /usr
 # SO_SUFFIX = so
-# TCL_INCLUDE = -I $(TCL)/include
+# TCL_INCLUDE = -I $(TCL)/include/tcl8.6
 # TCL_LIB = -L $(TCL)/lib
 # PIC = -fPIC
 # SHARED = -shared
