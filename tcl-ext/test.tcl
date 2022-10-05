@@ -1,0 +1,3 @@
+
+load ./libext.so
+f

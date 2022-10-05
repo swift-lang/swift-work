@@ -1,0 +1,2 @@
+
+tclsh test.tcl
