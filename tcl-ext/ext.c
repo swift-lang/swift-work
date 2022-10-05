@@ -14,8 +14,14 @@ f(UNUSED ClientData clientData, Tcl_Interp* interp,
   return TCL_OK;
 }
 
+#if MAC
+#define EXT_NAME Ext_Init
+#else // Linux
+#define EXT_NAME _Ext_Init
+#endif
+
 int
-_Ext_Init(Tcl_Interp* interp)
+EXT_NAME(Tcl_Interp* interp)
 {
   Tcl_CreateObjCommand(interp, "f", f, NULL, NULL);
   return TCL_OK;

@@ -1,3 +1,4 @@
 
-load ./libext.so
+# load ./libext.so
+load ./libext.dylib
 f
