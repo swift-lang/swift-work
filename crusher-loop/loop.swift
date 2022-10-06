@@ -10,6 +10,7 @@ foreach i in [0:count-1]
 {
   s = python_persist("""
 import os, socket, time
+import torch
 time.sleep(1)
 """,
 "'%-11s %5s' % (socket.gethostname(), os.environ['ADLB_RANK_SELF'])");

@@ -11,7 +11,8 @@ else
 fi
 
 # Check workflow exit code:
-grep "EXIT" $FILE
+grep "CODE:" $FILE
+grep "TIME:" $FILE
 
 echo "Number of tasks run:"
 grep "trace:" $FILE           | wc -l

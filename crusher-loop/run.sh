@@ -24,12 +24,19 @@ export PPN=16
 export WALLTIME=00:05:00
 
 # PROCS PPN NODES RESULT
+# Plain Python:
 #    16   4     4   OK
 #    32   4     8   OK
 #    64   4    16   OK
 #    64   8     8   OK
 #   128   8    16   OK
 #   256  16    16   OK
+# With PyTorch:
+#    16   4     4   OK
+#    64   8     8   OK
+#   128  16     8   OK
+#   256  16    16   OK
+
 
 # Number of Python tasks to execute:
 COUNT=$(( PROCS * 4 ))
