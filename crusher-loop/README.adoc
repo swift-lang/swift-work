@@ -1,0 +1,6 @@
+
+To run:
+
+. Edit `run.sh` to set PROCS and PPN as desired
+. Run with: `$ ./run.sh`
+. Check results with: `$ ./check.sh`
