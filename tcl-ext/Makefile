@@ -13,17 +13,33 @@ SWIFT = ${HOME}/proj/swift-t
 # TCL_LIB = -L $(TCL)/lib
 # SHARED = -shared
 
-# GCE Mac
-MAC = 1
-TCL = ${HOME}/Public/sfw/mac/tcl-8.6.8
-TCL_INCLUDE = -I $(TCL)/include
-TCL_LIB = -L $(TCL)/lib -l tcl
-MPI = ${HOME}/Public/sfw/mac/mpich-4.0.2
-MPI_INCLUDE = -I $(MPI)/include
-MPI_LIB = -L $(MPI)/lib -l mpi
-SHARED = -dynamiclib -Wl,-flat_namespace
-MAC_NAME = -install_name lib/libext
-SO_SUFFIX = dylib
+
+# MBOOK Jain
+# MAC ARM mbook
+# SWIFT=${HOME}/swift-t
+# MAC = 1
+# TCL = /Users/mbook/install/tcl86/
+# TCL_INCLUDE = -I $(TCL)/include
+# TCL_LIB = -L $(TCL)/lib -l tcl
+# MPI = /opt/homebrew/
+# MPI_INCLUDE = -I $(MPI)/include
+# MPI_LIB = -L $(MPI)/lib -l mpi
+# SHARED = -dynamiclib -Wl,-flat_namespace
+# MAC_NAME = -install_name lib/libext
+# SO_SUFFIX = dylib
+
+
+# # GCE Mac
+# MAC = 1
+# TCL = ${HOME}/Public/sfw/mac/tcl-8.6.8
+# TCL_INCLUDE = -I $(TCL)/include
+# TCL_LIB = -L $(TCL)/lib -l tcl
+# MPI = ${HOME}/Public/sfw/mac/mpich-4.0.2
+# MPI_INCLUDE = -I $(MPI)/include
+# MPI_LIB = -L $(MPI)/lib -l mpi
+# SHARED = -dynamiclib -Wl,-flat_namespace
+# MAC_NAME = -install_name lib/libext
+# SO_SUFFIX = dylib
 
 CUTILS = $(SWIFT)/c-utils/code
 ADLB   = $(SWIFT)/lb/code
