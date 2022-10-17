@@ -5,6 +5,8 @@
 
 #include <mpi.h>
 
+#include <adlb.h>
+
 #define UNUSED __attribute__ ((__unused__))
 
 int
@@ -24,6 +26,19 @@ f2(UNUSED ClientData clientData, Tcl_Interp* interp,
   fflush(stdout);
   MPI_Init(NULL, NULL);
   MPI_Barrier(MPI_COMM_WORLD);
+
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+  MPI_Comm c;
+  int types[1] = {0};
+  int am_server;
+
+  /* adlb_code ADLB_Init(int nservers, int ntypes, int type_vect[], */
+  /*                   int* am_server, MPI_Comm adlb_comm, */
+  /*                   MPI_Comm* worker_comm); */
+  ADLB_Init(1, 1, types, &am_server, MPI_COMM_WORLD, &c);
+
   MPI_Finalize();
   return TCL_OK;
 }
