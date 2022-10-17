@@ -13,7 +13,6 @@ SWIFT = ${HOME}/proj/swift-t
 # TCL_LIB = -L $(TCL)/lib
 # SHARED = -shared
 
-
 # MBOOK Jain
 # MAC ARM mbook
 # SWIFT=${HOME}/swift-t
@@ -28,8 +27,7 @@ SWIFT = ${HOME}/proj/swift-t
 # MAC_NAME = -install_name lib/libext
 # SO_SUFFIX = dylib
 
-
-# # GCE Mac
+# GCE Mac
 # MAC = 1
 # TCL = ${HOME}/Public/sfw/mac/tcl-8.6.8
 # TCL_INCLUDE = -I $(TCL)/include
