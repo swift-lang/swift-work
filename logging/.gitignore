@@ -1,0 +1,4 @@
+.gitignore
+# Unpack log4j into this directory:
+log4j2
+*.class
