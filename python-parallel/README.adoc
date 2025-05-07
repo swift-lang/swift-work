@@ -16,11 +16,11 @@
 $ swift-t -n 6 test-1.swift
 ----
 
-. This test workflow loads and runs a simple Python module called +test_1+.
-. The workflow calls +python_parallel_persist()+ with some Python code, and expects to receive a string result.
-. +test_1+ has 1 function, +f()+
-. +test_1.f()+
-.. uses +mpi4py+ and +turbine_helpers+ to access the communicator created by Swift/T for the task, and obtain its +rank+
+. This test workflow loads and runs a simple Python module called `test_1`.
+. The workflow calls `python_parallel_persist()` with some Python code, and expects to receive a string result.
+. `test_1` has 1 function, `f()`
+. `test_1.f()`
+.. uses `mpi4py` and `turbine_helpers` to access the communicator created by Swift/T for the task, and obtain its `rank`
 .. reports its rank with the communicator size
-.. returns +"HELLO"+ to Swift/T
-. The workflow prints the result +"HELLO"+ from the Python level.
+.. returns `"HELLO"` to Swift/T
+. The workflow prints the result `"HELLO"` from the Python level.
