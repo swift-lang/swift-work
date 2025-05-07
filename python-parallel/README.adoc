@@ -4,9 +4,9 @@
 == Installation
 
 . Install an Anaconda installation
-. Install Anaconda package +mpi4py+
+. Install Anaconda package `mpi4py`
 . Install Swift/T with that Anaconda installation as the Python +
-  Use +swift-t-settings.sh:PYTHON_EXE+
+  Use `swift-t-settings.sh:PYTHON_EXE`
 
 == Examples
 
