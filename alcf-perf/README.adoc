@@ -1,0 +1,23 @@
+
+= Aurora Performance Study
+
+== Quick start
+
+----
+$ ./run <PROCS> <PPN>
+----
+
+This reports a `TURBINE_OUTPUT` directory `D` .
+
+Get results:
+
+----
+$ ./report $D
+----
+
+== Results
+
+Request access here:
+
+https://docs.google.com/spreadsheets/d/1dwYuyIdvzFblEFcA4rKcrRXhBiAF_CoUT__PK-5jX1k
+
