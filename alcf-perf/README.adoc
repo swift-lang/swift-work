@@ -4,8 +4,10 @@
 == Quick start
 
 ----
-$ ./run <PROCS> <PPN>
+$ ./run <PROCS> <PPN> <OUTPUT>
 ----
+
+`OUTPUT` is the top-level of an output directory tree.
 
 This reports a `TURBINE_OUTPUT` directory `D` .
 
@@ -20,4 +22,3 @@ $ ./report $D
 Request access here:
 
 https://docs.google.com/spreadsheets/d/1dwYuyIdvzFblEFcA4rKcrRXhBiAF_CoUT__PK-5jX1k
-

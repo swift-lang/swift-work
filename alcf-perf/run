@@ -2,31 +2,31 @@
 set -eu
 
 # RUN
-# $ ./run PROCS PPN
+# $ ./run PROCS PPN OUTPUT
 # PPN should normally be 12
 
-if (( ${#} != 2 ))
+if (( ${#} != 3 ))
 then
-  echo "run: provide PROCS PPN"
+  echo "run: provide PROCS PPN OUTPUT"
   exit 1
 fi
 PROCS=$1
 export PPN=$2
-
-export WALLTIME=${WALLTIME:-00:05:00}
+export TURBINE_OUTPUT_ROOT=$3
 
 # See https://docs.alcf.anl.gov/aurora/running-jobs-aurora/#submitting-a-job
 export TURBINE_DIRECTIVE="#PBS -l filesystems=flare"
 
-: ${PROJECT:=candle_aesp_CNDA} ${QUEUE:=debug-scaling}
+# Defaults:
+: ${PROJECT:=candle_aesp_CNDA} ${QUEUE:=debug-scaling} ${ADLB_SERVERS:=1}
 export PROJECT QUEUE ADLB_PRINT_TIME=1
-export TURBINE_OUTPUT_ROOT=/lus/flare/projects/candle_aesp_CNDA/wozniak/turbine-output
 
-PATH=/lus/flare/projects/candle_aesp_CNDA/sfw/aurora/swift-t/2025-06-04-perf/stc/bin:$PATH
+SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-06-05-perf
+PATH=$SWIFT/stc/bin:$PATH
 
 export THIS=$( cd $( dirname $0 ) ; /bin/pwd )
 
-TASKS=$[ ( PROCS - ${ADLB_SERVERS:-1} ) * 10 ]
+TASKS=$[ (PROCS - ADLB_SERVERS) * 10 ]
 
 set -x
 which swift-t
