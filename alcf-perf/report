@@ -1,17 +1,25 @@
 #!/bin/bash
 set -eu
 
+crash()
+{
+  echo "report:" ${*}
+  exit 1
+}
+
 if (( ${#} != 1 ))
 then
-  echo "report: provide DIR"
-  exit 1
+  crash "provide DIR"
 fi
 DIR=$1
 
+if ! [[ -d $DIR ]]
+then
+  crash "no directory: $DIR"
+fi
 if ! [[ -f $DIR/jobid.txt ]]
 then
-  echo "report: no jobid file: $DIR"
-  exit 1
+  crash "no jobid file: $DIR"
 fi
 
 head -c 7                       $DIR/jobid.txt
@@ -19,19 +27,13 @@ echo
 grep "PROCS\|NODES\|PPN"        $DIR/turbine.log
 grep "TURBINE_WORKERS"          $DIR/turbine.log
 grep "ADLB_SERVERS"             $DIR/turbine.log
-if grep "TASKS:"                $DIR/output.txt
+if ! grep "TASKS:"              $DIR/output.txt
 then
-  : OK
-else
-  echo "report: job not started: $DIR"
-  exit 1
+  crash "job not started: $DIR"
 fi
-if grep "EXIT CODE:"            $DIR/output.txt
+if ! grep "EXIT CODE:"          $DIR/output.txt
 then
-  : OK
-else
-  echo "report: job not complete: $DIR"
-  exit 1
+  crash "job not complete: $DIR"
 fi
 grep "COMPLETED:"               $DIR/output.txt
 grep "ADLB Total Elapsed Time:" $DIR/output.txt
