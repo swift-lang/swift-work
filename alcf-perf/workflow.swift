@@ -14,7 +14,7 @@ app do_sleep(int i)
   ( getenv("THIS") / "sleep.sh" ) i ;
 }
 
-foreach i in [0:n]
+foreach i in [0:n-1]
 {
   do_sleep(10);
 }
