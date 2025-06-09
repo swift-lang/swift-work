@@ -1,0 +1,29 @@
+#!/bin/zsh
+set -eu
+
+if (( ${#*} != 3 )) {
+  print "provide OUT PFX JOB"
+  return 1
+}
+
+OUT=$1  # Root directory for search
+PFX=$2  # Jump to this subdirectory for speed
+JOB=$3  # The job ID
+
+cd $OUT
+cd $PFX
+
+set +e
+# Allow grep error codes:
+T=$( find . -name jobid.txt | xargs -n 1 grep -H $JOB )
+set -e
+if [[ $T == "" ]] {
+  print "not found: $JOB"
+  return 1
+}
+
+F=${T%/job*}
+# Drop leading .
+F=${F[2,-1]}
+
+print $PFX$F
