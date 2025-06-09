@@ -3,4 +3,4 @@ set -eu
 
 paste {nodes,pcts}.data > servers-1.data
 
-jwplot plot.eps plot.cfg servers-[12].data
+jwplot plot.eps plot.cfg servers-[124].data
