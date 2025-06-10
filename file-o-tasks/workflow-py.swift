@@ -15,6 +15,6 @@ L = file_lines(input(listfile));
 foreach line in L
 {
   printf("executing: '%s'", line);
-  // Cf. https://swift-lang.github.io/swift-t/guide.html#stdlib_system
+  // Cf. https://swift-lang.github.io/swift-t/guide.html#leaf_python
   python(line);
 }
