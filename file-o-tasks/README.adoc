@@ -17,6 +17,8 @@ It runs the list of tasks in `batcher.list` .
 
 See `output.txt` for output.
 
+The https://github.com/swift-lang/swift-t/blob/master/lb/code/apps/batcher.c[Batcher source code] is a simple example of how to use ADLB.
+
 == Swift/T Shell List
 
 Run with:
@@ -24,6 +26,8 @@ Run with:
 ----
 $ ./run-swift-sh swift-sh.list
 ----
+
+It runs the workflow in `workflow-sh.swift` , using the Cf. https://swift-lang.github.io/swift-t/guide.html#stdlib_system[Swift/T `system1()` function].  More complex cases should use https://swift-lang.github.io/swift-t/guide.html#app_functions[Swift/T `app` functions].
 
 It runs the list of tasks in `swift-sh.list` .  This file supports comments.
 
@@ -34,8 +38,10 @@ See the reported `output.txt` for output.
 Run with:
 
 ----
-$ ./run-swift-sh swift-py.list
+$ ./run-swift-py swift-py.list
 ----
+
+It runs the workflow in `workflow-py.swift` , using the  https://swift-lang.github.io/swift-t/guide.html#leaf_python[Swift/T Python functionality].
 
 It runs the list of Python strings in `swift-py.list` .  This file supports comments.
 
