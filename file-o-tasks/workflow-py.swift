@@ -16,6 +16,5 @@ foreach line in L
 {
   printf("executing: '%s'", line);
   // Cf. https://swift-lang.github.io/swift-t/guide.html#stdlib_system
-  s = python(line);
-  printf("output: %i '%s'", code, s);
+  python(line);
 }
