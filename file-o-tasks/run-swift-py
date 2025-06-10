@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-# RUN SWIFT SH
+# RUN SWIFT PY
 
 if (( ${#} != 1 ))
 then
