@@ -16,7 +16,7 @@
 
 set -eu
 
-SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-06-09-hook
+SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-06-09-batch
 PATH=$SWIFT/lb/bin:$PATH
 PATH=/opt/cray/pals/1.4/bin:$PATH
 

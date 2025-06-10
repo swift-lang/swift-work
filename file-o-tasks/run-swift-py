@@ -23,4 +23,4 @@ export TURBINE_DIRECTIVE="#PBS -l filesystems=flare"
 LIST_RP=$( realpath -e $LIST )
 
 set -x
-swift-t -m pbs $THIS/workflow-sh.swift $LIST_RP
+swift-t -m pbs $THIS/workflow-py.swift $LIST_RP

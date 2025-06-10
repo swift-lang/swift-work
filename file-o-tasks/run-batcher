@@ -10,6 +10,7 @@ then
 fi
 export LIST=$1
 
+# Backup old files:
 if [[ -f output.txt ]]
 then
   mv --backup=numbered output.txt output.txt.bak
@@ -21,6 +22,7 @@ fi
 
 export THIS=$( cd $( dirname $0 ) ; /bin/pwd )
 
+# Filter/create the job script:
 m4 -P $THIS/common.m4 $THIS/batcher-job.sh.m4 > batcher-job.sh
 
 set -x
