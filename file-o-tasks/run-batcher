@@ -3,6 +3,13 @@ set -eu
 
 # RUN BATCHER
 
+if (( ${#} != 1 ))
+then
+  echo "provide task list!"
+  exit 1
+fi
+export LIST=$1
+
 if [[ -f output.txt ]]
 then
   mv --backup=numbered output.txt output.txt.bak

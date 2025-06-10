@@ -20,13 +20,16 @@ SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-06-09-hook
 PATH=$SWIFT/lb/bin:$PATH
 PATH=/opt/cray/pals/1.4/bin:$PATH
 
+LIST=getenv(LIST)
+
 cd getenv(THIS)
 
 echo
 echo "JOB:  " $PBS_JOBID_SHORT
 echo "DATE: " $( date "+%Y-%m-%d %H:%M" )
 echo "PWD:  " $PWD
+echo "LIST: " $LIST
 echo
 
 set -x
-mpiexec adlb-batcher batcher.list
+mpiexec adlb-batcher $LIST
