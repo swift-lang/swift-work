@@ -15,5 +15,6 @@ foreach line in L
 {
   printf("executing: '%s'", line);
   // Cf. https://swift-lang.github.io/swift-t/guide.html#stdlib_system
-  system1(line);
+  s, code = system1(line);
+  printf("output: %i '%s'", code, s);
 }
