@@ -34,6 +34,23 @@ The workflow.  Defines 2 work types, `CPU` and `GPU`.  Defines 2 tasks `task_cpu
 
 Just reports the task type and current rank.
 
+=== `run`
+
+The user interface script.  Sets some important variables that control Swift/T:
+
+Specify a rankfile for `mpiexec`: 
+----
+export TURBINE_LAUNCH_OPTIONS="--rankfile $THIS/rankfile.txt"
+----
+
+Specify how many workers are allocated to work types `CPU` and `GPU`:
+----
+export TURBINE_CPU_WORKERS=$[ PROCS / 2 - 1 ]
+export TURBINE_GPU_WORKERS=$[ PROCS / 2 - 1 ]
+----
+
+This is enough to tell Swift/T what rank ranges to use.  Now we have to make sure those rank ranges are assigned to nodes the way we want, using the MPI rankfile.
+
 === `rankfile.txt`
 
 * https://docs.alcf.anl.gov/aurora/running-jobs-aurora/#mpi-rank-and-thread-binding-to-cores-and-gpus
