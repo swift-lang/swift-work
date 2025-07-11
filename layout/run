@@ -1,0 +1,63 @@
+#!/bin/bash
+set -eu
+
+# RUN
+# $ ./run PROCS PPN OUTPUT
+# PPN should normally be 12
+
+if (( ${#} != 3 ))
+then
+  echo "run: provide PROCS PPN OUTPUT"
+  exit 1
+fi
+PROCS=$1
+export PPN=$2
+export TURBINE_OUTPUT_ROOT=$3
+
+if (( PROCS < 4 ))
+then
+  echo "Provide PROCS>=4"
+  exit 1
+fi
+if (( PROCS % 2 != 0 ))
+then
+  echo "Provide even PROCS"
+  exit 1
+fi
+
+# See https://docs.alcf.anl.gov/aurora/running-jobs-aurora/#submitting-a-job
+export TURBINE_DIRECTIVE="#PBS -l filesystems=home:flare"
+
+# Defaults:
+: ${PROJECT:=candle_aesp_CNDA} ${QUEUE:=debug}
+: ${WALLTIME:=00:05:00}
+export PROJECT QUEUE WALLTIME
+
+# Turn on some useful layout reporting:
+export ADLB_DEBUG_HOSTMAP=1 TURBINE_DEBUG_WORKTYPES=1
+export TURBINE_LOG=0 TURBINE_DEBUG=0
+
+SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-06-05-perf
+PATH=$SWIFT/stc/bin:$PATH
+
+export THIS=$( realpath $( dirname $0 ) )
+
+TASKS=$[ PROCS * 2 ]
+
+export TURBINE_LAUNCH_OPTIONS="--rankfile $THIS/rankfile.txt"
+
+export TURBINE_GPU_WORKERS=$[ PROCS / 2 - 1 ]
+export TURBINE_CPU_WORKERS=$[ PROCS / 2 - 1 ]
+# A plain (WORK) worker is lowest rank
+# ^ There must be at least 1 of these
+# ADLB Server is highest rank
+
+SWIFT_ARGS=( -m pbs                # Submit to PBS
+             -n $PROCS             # Process count
+             $THIS/workflow.swift  # The workflow script
+             -n=$TASKS             # Argument to workflow (see argv())
+           )
+
+set -x
+which swift-t
+swift-t ${SWIFT_ARGS[@]}

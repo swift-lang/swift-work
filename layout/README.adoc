@@ -1,0 +1,96 @@
+
+= Aurora Heterogeneous Workflows
+
+== Overview
+
+Swift/T simply runs on MPI, so we can use rank allocation to assign work to certain ranks.  For example, we can specify that certain ranks just run GPU tasks, and send those tasks there.  Ranks can be overassigned to CPUs, so that the sum of CPU tasks and GPU tasks on a node exceeds the number of CPUs.
+
+Swift/T optionally allows users to designate rank ranges for certain work types.  Historically this has been used to designate resources for certain algorithms or data services.
+
+User documentation is here:
+https://swift-lang.github.io/swift-t/guide.html#_dispatch_and_work_types
+
+NOTE: In this workflow, `CPU` and `GPU` are user symbols as far as Swift/T is concerned.  We are simply allocating ranks across nodes for certain kinds of work.  
+
+NOTE: This example uses a low-level feature set in Swift/T.  We could build some higher-level features for typical use cases.
+
+== Quick start
+
+----
+$ ./run <PROCS> <PPN> <OUTPUT>
+----
+
+`OUTPUT` is the top-level of an output directory tree.
+
+This reports a `TURBINE_OUTPUT` directory `D` .
+
+== File list
+
+=== `workflow.swift`
+
+The workflow.  Defines 2 work types, `CPU` and `GPU`.  Defines 2 tasks `task_cpu()` and `task_gpu()`, which always run work of that type.  Both actually run `task.sh` with a the label `CPU` or `GPU`.  We run `n` tasks of each type, where `n` comes in off the command line.
+
+=== `task.sh`
+
+Just reports the task type and current rank.
+
+=== `rankfile.txt`
+
+* https://docs.alcf.anl.gov/aurora/running-jobs-aurora/#mpi-rank-and-thread-binding-to-cores-and-gpus
+* https://www.mpich.org/static/docs/slides/2024-cass-bof/morozov.pdf
+
+A 2-node, 4-rank/node case is here in git.  I am working on a rankfile generator, but this may be pretty specific to the application needs.
+
+== Interpretation for current case
+
+For a 2-node, 4-rank/node case, with 2 CPUs and 2 GPUs per node, this is:
+
+----
+RANK NODE CPU  NOTE
+0    0    1    # Reserved for the system
+1    0    2    # CPU
+2    1    1    # CPU
+3    1    2    # CPU
+4    0    3    # GPU
+5    0    4    # GPU
+6    1    3    # GPU
+7    1    4    # ADLB
+----
+
+Sample output from the workflow looks like:
+
+----
+HOSTMAP: x4610c7s6b0n0 -> 0
+HOSTMAP: x4610c7s6b0n0 -> 1
+HOSTMAP: x4610c7s7b0n0 -> 2
+HOSTMAP: x4610c7s7b0n0 -> 3
+HOSTMAP: x4610c7s6b0n0 -> 4
+HOSTMAP: x4610c7s6b0n0 -> 5
+HOSTMAP: x4610c7s7b0n0 -> 6
+HOSTMAP: x4610c7s7b0n0 -> 7
+
+TASKS: 16
+TASK: LABEL=GPU RANK=5
+TASK: LABEL=CPU RANK=1
+TASK: LABEL=GPU RANK=4
+TASK: LABEL=CPU RANK=2
+TASK: LABEL=CPU RANK=3
+TASK: LABEL=GPU RANK=6
+TASK: LABEL=GPU RANK=5
+TASK: LABEL=GPU RANK=4
+TASK: LABEL=CPU RANK=1
+TASK: LABEL=GPU RANK=6
+TASK: LABEL=CPU RANK=2
+TASK: LABEL=CPU RANK=3
+TASK: LABEL=GPU RANK=5
+----
+
+Thus:
+
+* `CPU` tasks are assigned to ranks:
+** 1   on node x4610c7s6b0n0
+** 2,3 on node x4610c7s7b0n0
+* `GPU` tasks are assigned to ranks:
+** 4,5 on node x4610c7s6b0n0
+** 6   on node x4610c7s7b0n0
+* No user work runs on ranks 0,7 .
