@@ -1,0 +1,48 @@
+
+= File-o-tasks
+
+This documents 3 ways to run file-o-tasks workloads on Aurora.
+
+== ADLB Batcher
+
+Run with:
+
+----
+$ ./run-batcher batcher.list
+----
+
+This filters a job file `batcher-job.sh` and submits it.
+
+It runs the list of tasks in `batcher.list` .
+
+See `output.txt` for output.
+
+The https://github.com/swift-lang/swift-t/blob/master/lb/code/apps/batcher.c[Batcher source code] is a simple example of how to use ADLB.
+
+== Swift/T Shell List
+
+Run with:
+
+----
+$ ./run-swift-sh swift-sh.list
+----
+
+It runs the workflow in `workflow-sh.swift` , using the https://swift-lang.github.io/swift-t/guide.html#stdlib_system[Swift/T `system1()` function].  More complex cases should use https://swift-lang.github.io/swift-t/guide.html#app_functions[Swift/T `app` functions].
+
+It runs the list of tasks in `swift-sh.list` .  This file supports comments.
+
+See the reported `output.txt` for output.
+
+== Swift/T Python List
+
+Run with:
+
+----
+$ ./run-swift-py swift-py.list
+----
+
+It runs the workflow in `workflow-py.swift` , using the  https://swift-lang.github.io/swift-t/guide.html#leaf_python[Swift/T Python functionality].
+
+It runs the list of Python strings in `swift-py.list` .  This file supports comments.
+
+See the reported `output.txt` for output.

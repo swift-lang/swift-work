@@ -1,0 +1,7 @@
+# This file supports comments
+echo HELLO
+hostname
+
+# and blank lines
+date "+%Y-%m-%d %H:%M"
+echo BYE

@@ -1,0 +1,29 @@
+#!/bin/bash
+set -eu
+
+# RUN BATCHER
+
+if (( ${#} != 1 ))
+then
+  echo "provide task list!"
+  exit 1
+fi
+export LIST=$1
+
+# Backup old files:
+if [[ -f output.txt ]]
+then
+  mv --backup=numbered output.txt output.txt.bak
+fi
+if [[ -f batcher-job.sh ]]
+then
+  mv --backup=numbered batcher-job.sh batcher-job.sh.bak
+fi
+
+export THIS=$( cd $( dirname $0 ) ; /bin/pwd )
+
+# Filter/create the job script:
+m4 -P $THIS/common.m4 $THIS/batcher-job.sh.m4 > batcher-job.sh
+
+set -x
+qsub $THIS/batcher-job.sh

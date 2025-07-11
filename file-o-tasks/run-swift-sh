@@ -1,0 +1,26 @@
+#!/bin/bash
+set -eu
+
+# RUN SWIFT SH
+
+if (( ${#} != 1 ))
+then
+  echo "provide task list!"
+  exit 1
+fi
+LIST=$1
+
+SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-06-09-batch
+PATH=$SWIFT/stc/bin:$PATH
+
+THIS=$( cd $( dirname $0 ) ; /bin/pwd )
+
+export PROCS=12 PPN=12 PROJECT=workflow_scaling QUEUE=debug
+# See https://docs.alcf.anl.gov/aurora/running-jobs-aurora/#submitting-a-job
+export TURBINE_DIRECTIVE="#PBS -l filesystems=flare"
+
+# Canonicalize: Swift runs in the output directory:
+LIST_RP=$( realpath -e $LIST )
+
+set -x
+swift-t -m pbs $THIS/workflow-sh.swift $LIST_RP
