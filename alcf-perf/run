@@ -15,10 +15,10 @@ export PPN=$2
 export TURBINE_OUTPUT_ROOT=$3
 
 # See https://docs.alcf.anl.gov/aurora/running-jobs-aurora/#submitting-a-job
-export TURBINE_DIRECTIVE="#PBS -l filesystems=flare"
+export TURBINE_DIRECTIVE="#PBS -l filesystems=home:flare"
 
 # Defaults:
-: ${PROJECT:=candle_aesp_CNDA} ${QUEUE:=debug-scaling} ${ADLB_SERVERS:=1}
+: ${PROJECT:=workflow_scaling} ${QUEUE:=debug-scaling} ${ADLB_SERVERS:=1}
 : ${WALLTIME:=00:10:00}
 export PROJECT QUEUE WALLTIME
 export ADLB_PRINT_TIME=1 ADLB_DISABLE_HOSTMAP=1
