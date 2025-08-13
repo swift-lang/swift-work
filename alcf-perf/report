@@ -1,10 +1,29 @@
 #!/bin/bash
 set -eu
 
+# Presume success:
+CODE=0
+
 crash()
 {
   echo "report:" ${*}
   exit 1
+}
+
+if-grep()
+# Handle grep not-found cases
+# Sets CODE=1 but does not crash script
+{
+  if grep "${@}"
+  then
+    : OK
+  else
+    local PATTERN="$1"
+    shift
+    echo "pattern '$PATTERN' not found in ${*}"
+    # Global CODE
+    CODE=1
+  fi
 }
 
 if (( ${#} != 1 ))
@@ -27,13 +46,16 @@ echo
 grep "PROCS\|NODES\|PPN"        $DIR/turbine.log
 grep "TURBINE_WORKERS"          $DIR/turbine.log
 grep "ADLB_SERVERS"             $DIR/turbine.log
-if ! grep "TASKS:"              $DIR/output.txt
-then
-  crash "job not started: $DIR"
-fi
+if-grep "TASKS:"                $DIR/output.txt
 if ! grep "EXIT CODE:"          $DIR/output.txt
 then
   crash "job not complete: $DIR"
 fi
-grep "COMPLETED:"               $DIR/output.txt
-grep "ADLB Total Elapsed Time:" $DIR/output.txt
+if-grep "COMPLETED:"               $DIR/output.txt
+if-grep "ADLB Total Elapsed Time:" $DIR/output.txt
+
+if (( CODE != 0 ))
+then
+  echo "ERROR!"
+fi
+exit $CODE
