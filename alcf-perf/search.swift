@@ -4,7 +4,7 @@ import string;
 
 @dispatch=WORKER
 (string s) evaluate(int i, int c, int limit) "evaluate" "0.0" [
-  "set _t [ evaluate <<i>> <<c>> <<limit>> ] ; puts \"<<i>> <<c>> $_t\" ; set <<s>> $_t"
+  "set <<s>> [ evaluate <<i>> <<c>> <<limit>> ]"
 ];
 
 int n = string2int(argp(1));
