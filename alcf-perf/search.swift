@@ -1,14 +1,17 @@
 
+import sys;
 import string;
 
 @dispatch=WORKER
-(string s) evaluate(int i, int c) "evaluate" "0.0" [
-  "set s [ evaluate <<i>> <<c>> ]"
+(string s) evaluate(int i, int c, int limit) "evaluate" "0.0" [
+  "set _t [ evaluate <<i>> <<c>> <<limit>> ] ; puts \"<<i>> <<c>> $_t\" ; set <<s>> $_t"
 ];
+
+int n = string2int(argp(1));
 
 search(int i, int c)
 {
-  str = evaluate(i, c);
+  str = evaluate(i, c, n);
   string tokens[] = split(str, ",");
   foreach token in tokens
   {
