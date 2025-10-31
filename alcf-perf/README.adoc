@@ -22,3 +22,7 @@ $ ./report $D
 Request access here:
 
 https://docs.google.com/spreadsheets/d/1dwYuyIdvzFblEFcA4rKcrRXhBiAF_CoUT__PK-5jX1k
+
+== Dev notes
+
+* Build Tcl with module `gcc`
