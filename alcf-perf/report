@@ -41,13 +41,17 @@ then
   crash "no jobid file: $DIR"
 fi
 
-head -c 7                       $DIR/jobid.txt
+echo -n "JOB:                "
+# Cut out Aurora junk from ID:
+head -c 7                $DIR/jobid.txt
 echo
-grep "PROCS\|NODES\|PPN"        $DIR/turbine.log
-grep "TURBINE_WORKERS"          $DIR/turbine.log
-grep "ADLB_SERVERS"             $DIR/turbine.log
-if-grep "TASKS:"                $DIR/output.txt
-if ! grep "EXIT CODE:"          $DIR/output.txt
+# Want NODES at top for readability
+grep "NODES"             $DIR/turbine.log
+grep "PROCS\|PPN"        $DIR/turbine.log
+grep "TURBINE_WORKERS"   $DIR/turbine.log
+grep "ADLB_SERVERS"      $DIR/turbine.log
+if-grep "TASKS:"         $DIR/output.txt
+if ! grep "EXIT CODE:"   $DIR/output.txt
 then
   crash "job not complete: $DIR"
 fi
@@ -56,6 +60,7 @@ if-grep "ADLB Total Elapsed Time:" $DIR/output.txt
 
 if (( CODE != 0 ))
 then
+  grep "died" $DIR/output.txt
   echo "ERROR!"
 fi
 exit $CODE
