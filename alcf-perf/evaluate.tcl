@@ -3,6 +3,8 @@ package provide evaluate 0.0
 
 # Algorithm 1:
 proc evaluate { i c limit } {
+  global count
+  after 1
   set result ""
   if { $i < $limit } {
     for { set j $c } { $j < $limit } { incr j } {
@@ -10,7 +12,7 @@ proc evaluate { i c limit } {
     }
     set result [ join $L "," ]
   }
-  show_step $i $c $result
+  # show_step $i $c $result
   return $result
 }
 
