@@ -24,7 +24,7 @@ export PROJECT QUEUE WALLTIME
 export ADLB_PRINT_TIME=1 ADLB_DISABLE_HOSTMAP=1
 # Disable hostmap 2026-06-06 11:00
 
-SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-06-05-perf
+SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-10-31-perf
 PATH=$SWIFT/stc/bin:$PATH
 
 export THIS=$( cd $( dirname $0 ) ; /bin/pwd )
