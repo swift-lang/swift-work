@@ -1,36 +1,47 @@
 #!/bin/bash
 set -eu
 
+source ~/mcs/ZTools/bash_functions
+
 # RUN
 # $ ./run PROCS PPN OUTPUT
 # PPN should normally be 12
 
-if (( ${#} != 3 ))
+if (( ${#} < 4 ))
 then
-  echo "run: provide PROCS PPN OUTPUT"
+  echo "run: provide PROCS PPN OUTPUT WORKFLOW [ARGS]"
   exit 1
 fi
 PROCS=$1
 export PPN=$2
 export TURBINE_OUTPUT_ROOT=$3
+WORKFLOW=$4
+shift 4
+A=( ${*} )
 
 # See https://docs.alcf.anl.gov/aurora/running-jobs-aurora/#submitting-a-job
 export TURBINE_DIRECTIVE="#PBS -l filesystems=home:flare"
 
 # Defaults:
 : ${PROJECT:=workflow_scaling} ${QUEUE:=debug-scaling} ${ADLB_SERVERS:=1}
-: ${WALLTIME:=00:10:00}
+: ${WALLTIME:=00:05:00}
 export PROJECT QUEUE WALLTIME
 export ADLB_PRINT_TIME=1 ADLB_DISABLE_HOSTMAP=1
-# Disable hostmap 2026-06-06 11:00
+# Disable hostmap 2025-06-06 11:00
 
-SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-10-31-perf
+# SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-10-31-perf
+SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2026-06-09
 PATH=$SWIFT/stc/bin:$PATH
+
+export LD_LIBRARY_PATH=/lus/flare/projects/candle_aesp_CNDA/sfw/aurora/tcl-8.6.13/lib:${LD_LIBRARY_PATH:-}
+
+# export TURBINE_STDOUT="out/out-@r.txt"
 
 export THIS=$( cd $( dirname $0 ) ; /bin/pwd )
 
-TASKS=$[ (PROCS - ADLB_SERVERS) * 10 ]
+export SWIFT_PATH=$THIS
 
 set -x
+# log-path LD_LIBRARY_PATH
 which swift-t
-swift-t -m pbs -n $PROCS $THIS/workflow.swift -n=$TASKS
+swift-t -m pbs -n $PROCS $WORKFLOW ${A[@]}
