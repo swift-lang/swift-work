@@ -1,8 +1,6 @@
 #!/bin/bash
 set -eu
 
-source ~/mcs/ZTools/bash_functions
-
 # RUN
 # $ ./run PROCS PPN OUTPUT
 # PPN should normally be 12
