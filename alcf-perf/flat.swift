@@ -1,6 +1,6 @@
 
 /*
-  WORKFLOW SWIFT
+  FLAT SWIFT
 */
 
 import io;
