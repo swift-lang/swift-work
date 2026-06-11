@@ -2,12 +2,12 @@
 package provide evaluate 0.0
 
 # Algorithm 1:
-proc evaluate { i c limit } {
+proc evaluate { i c n } {
   global count
   after 1
   set result ""
-  if { $i < $limit } {
-    for { set j $c } { $j < $limit } { incr j } {
+  if { $i < $n } {
+    for { set j $c } { $j < $n } { incr j } {
       lappend L $j
     }
     set result [ join $L "," ]

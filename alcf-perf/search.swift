@@ -5,16 +5,16 @@ import string;
 import sys;
 
 @dispatch=WORKER
-(string s) evaluate(int i, int c, int limit) "evaluate" "0.0" [
-  "set <<s>> [ evaluate <<i>> <<c>> <<limit>> ]"
+(string s) evaluate(int i, int c, int n) "evaluate" "0.0" [
+  "set <<s>> [ evaluate <<i>> <<c>> <<n>> ]"
 ];
 
 int n = string2int(argp(1));
 
 (int r) search(int i, int c)
 {
-  str = evaluate(i, c, n);
-  string tokens[] = split(str, ",");
+  string s = evaluate(i, c, n);
+  string tokens[] = split(s, ",");
   int A[];
   foreach token, index in tokens
   {
@@ -22,7 +22,7 @@ int n = string2int(argp(1));
   }
 
   r = sum_integer(A) + 1;
-  // printf("i=%i c=%i r=%i", i, c, r);
+  printf("i=%i c=%i r=%i", i, c, r);
 }
 
 total = search(1, 0);
