@@ -26,4 +26,5 @@ int n = string2int(argp(1));
 }
 
 total = search(1, 0);
-printf("total: %i", total);
+printf("N:     %i", n);
+printf("TASKS: %i", total);
