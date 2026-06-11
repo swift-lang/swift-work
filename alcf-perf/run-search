@@ -1,0 +1,27 @@
+#!/bin/zsh
+set -eu
+
+# RUN
+# For the workflow flat.swift
+
+THIS=${0:A:h}
+
+if (( ${#*} < 3 )) {
+  echo "run-flat: provide PROCS PPN OUTPUT N"
+  exit 1
+}
+PROCS=$1
+export PPN=$2
+export TURBINE_OUTPUT_ROOT=$3
+N=$4
+
+export ADLB_SERVERS=${ADLB_SERVERS:-1}
+
+A=( $N )
+
+print "N:" $N
+
+PS4='+ '
+
+set -x
+$THIS/run $PROCS $PPN $TURBINE_OUTPUT_ROOT search.swift $A
