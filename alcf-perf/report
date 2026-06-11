@@ -50,6 +50,7 @@ grep "NODES"             $DIR/turbine.log
 grep "PROCS\|PPN"        $DIR/turbine.log
 grep "TURBINE_WORKERS"   $DIR/turbine.log
 grep "ADLB_SERVERS"      $DIR/turbine.log
+# if-grep "N:"             $DIR/output.txt
 if-grep "TASKS:"         $DIR/output.txt
 if ! grep "EXIT CODE:"   $DIR/output.txt
 then
