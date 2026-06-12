@@ -17,7 +17,7 @@ N=$4
 
 export ADLB_SERVERS=${ADLB_SERVERS:-1}
 
-A=( $N )
+A=( -m=$N )
 
 print "N:" $N
 
