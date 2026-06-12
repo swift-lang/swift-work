@@ -4,7 +4,6 @@ package provide evaluate 0.0
 # Algorithm 1:
 proc evaluate { i c m } {
   global count
-  after 1
   set result ""
   if { $i < $m } {
     for { set j $c } { $j < $m } { incr j } {
