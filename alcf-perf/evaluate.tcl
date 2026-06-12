@@ -2,16 +2,25 @@
 package provide evaluate 0.0
 
 # Algorithm 1:
-proc evaluate { i c n } {
+proc evaluate { i c m } {
   global count
   after 1
   set result ""
-  if { $i < $n } {
-    for { set j $c } { $j < $n } { incr j } {
+  if { $i < $m } {
+    for { set j $c } { $j < $m } { incr j } {
       lappend L $j
     }
     set result [ join $L "," ]
   }
+  if { $i <= 1 } {
+    set delay 0
+  } else {
+    set delay [ expr { round(rand() * 20 * 1000) } ]
+  }
+  puts "delay: $delay"
+  flush stdout
+  after $delay
+
   # show_step $i $c $result
   return $result
 }

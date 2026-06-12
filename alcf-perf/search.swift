@@ -4,16 +4,23 @@ import stats;
 import string;
 import sys;
 
+/**
+   IDEA
+   i: basically the recursion level
+   c: cursor for tasks
+   m: limit for number of recursions and tasks per recursion
+*/
+
 @dispatch=WORKER
-(string s) evaluate(int i, int c, int n) "evaluate" "0.0" [
-  "set <<s>> [ evaluate <<i>> <<c>> <<n>> ]"
+(string s) evaluate(int i, int c, int m) "evaluate" "0.0" [
+  "set <<s>> [ evaluate <<i>> <<c>> <<m>> ]"
 ];
 
-int n = string2int(argp(1));
+int m = string2int(argv("m"));
 
 (int r) search(int i, int c)
 {
-  string s = evaluate(i, c, n);
+  string s = evaluate(i, c, m);
   string tokens[] = split(s, ",");
   int A[];
   foreach token, index in tokens
@@ -26,5 +33,5 @@ int n = string2int(argp(1));
 }
 
 total = search(1, 0);
-printf("N:     %i", n);
+printf("M:     %i", m);
 printf("TASKS: %i", total);
