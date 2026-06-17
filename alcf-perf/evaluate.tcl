@@ -16,8 +16,8 @@ proc evaluate { i c m } {
   } else {
     set delay [ expr { round(rand() * 20 * 1000) } ]
   }
-  puts "delay: $delay"
-  flush stdout
+  # puts "delay: $delay"
+  # flush stdout
   after $delay
 
   # show_step $i $c $result
