@@ -29,7 +29,7 @@ int m = string2int(argv("m"));
   }
 
   r = sum_integer(A) + 1;
-  printf("i=%i c=%i r=%i", i, c, r);
+  // printf("i=%i c=%i r=%i", i, c, r);
 }
 
 total = search(1, 0);
