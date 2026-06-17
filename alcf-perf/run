@@ -22,8 +22,8 @@ export TURBINE_DIRECTIVE="#PBS -l filesystems=home:flare"
 
 # Defaults:
 : ${PROJECT:=workflow_scaling} ${QUEUE:=debug-scaling} ${ADLB_SERVERS:=1}
-: ${WALLTIME:=00:05:00}
-export PROJECT QUEUE WALLTIME
+: ${WALLTIME:=00:10:00}
+export PROJECT QUEUE WALLTIME ADLB_SERVERS
 export ADLB_PRINT_TIME=1 ADLB_DISABLE_HOSTMAP=1
 # Disable hostmap 2025-06-06 11:00
 
@@ -42,4 +42,4 @@ export SWIFT_PATH=$THIS
 set -x
 # log-path LD_LIBRARY_PATH
 which swift-t
-swift-t -m pbs -n $PROCS $WORKFLOW ${A[@]}
+swift-t -u -m pbs -n $PROCS -e TURBINE_APP_DEBUG=1 $WORKFLOW ${A[@]}

@@ -10,9 +10,9 @@ crash()
   exit 1
 }
 
-if-grep()
+grep-check()
 # Handle grep not-found cases
-# Sets CODE=1 but does not crash script
+# Sets global CODE=1 but does not crash script
 {
   if grep "${@}"
   then
@@ -23,6 +23,18 @@ if-grep()
     echo "pattern '$PATTERN' not found in ${*}"
     # Global CODE
     CODE=1
+  fi
+}
+
+grep-maybe()
+# Handle grep not-found cases
+# Ignores not-found case
+{
+  if grep "${@}"
+  then
+    : OK
+  else
+    : OK
   fi
 }
 
@@ -50,18 +62,20 @@ grep "NODES"             $DIR/turbine.log
 grep "PROCS\|PPN"        $DIR/turbine.log
 grep "TURBINE_WORKERS"   $DIR/turbine.log
 grep "ADLB_SERVERS"      $DIR/turbine.log
-# if-grep "N:"             $DIR/output.txt
-if-grep "TASKS:"         $DIR/output.txt
-if ! grep "EXIT CODE:"   $DIR/output.txt
+grep-maybe "Swift:"      $DIR/output.txt
+if grep "died"           $DIR/output.txt
 then
-  crash "job not complete: $DIR"
+  CODE=1
 fi
-if-grep "COMPLETED:"               $DIR/output.txt
-if-grep "ADLB Total Elapsed Time:" $DIR/output.txt
+grep-maybe "N:\|M:"    $DIR/output.txt
+grep-check "TASKS:"      $DIR/output.txt
+if grep "EXIT CODE:"   $DIR/output.txt
+then
+  grep-check "COMPLETED:"               $DIR/output.txt
+  grep-check "ADLB Total Elapsed Time:" $DIR/output.txt
+else
+  echo "job not complete: $DIR"
+  CODE=1
+fi
 
-if (( CODE != 0 ))
-then
-  grep "died" $DIR/output.txt
-  echo "ERROR!"
-fi
 exit $CODE
