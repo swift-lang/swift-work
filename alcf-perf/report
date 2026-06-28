@@ -63,12 +63,12 @@ grep "PROCS\|PPN"        $DIR/turbine.log
 grep "TURBINE_WORKERS"   $DIR/turbine.log
 grep "ADLB_SERVERS"      $DIR/turbine.log
 grep-maybe "Swift:"      $DIR/output.txt
-if grep "died"           $DIR/output.txt
+grep-maybe "N:\|M:"      $DIR/output.txt
+if grep "died\|exceeded" $DIR/output.txt
 then
   CODE=1
 fi
-grep-maybe "N:\|M:"    $DIR/output.txt
-grep-check "TASKS:"      $DIR/output.txt
+grep-maybe "TASKS:"    $DIR/output.txt
 if grep "EXIT CODE:"   $DIR/output.txt
 then
   grep-check "COMPLETED:"               $DIR/output.txt
