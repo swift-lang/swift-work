@@ -9,4 +9,5 @@ if (( ${#*} != 1 )) {
 }
 N=$1
 
+mkdir -pv data
 touch data/data-{000..$[N-1]}-000.txt
