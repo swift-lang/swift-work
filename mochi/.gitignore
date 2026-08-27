@@ -1,2 +1,4 @@
 # Data directory:
 data
+__pycache__
+turbine-output
