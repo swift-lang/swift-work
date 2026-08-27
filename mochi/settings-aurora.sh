@@ -8,7 +8,6 @@ PATH=$THIS:$SWIFT/stc/bin:$PATH
 
 # Swift/T scheduler settings follow:
 
-# This is the EMERGE project:
 export PROJECT=Diaspora
 
 # Edit this based on your workload!
