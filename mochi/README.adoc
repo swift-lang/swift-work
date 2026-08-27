@@ -1,0 +1,64 @@
+
+= Mochi
+
+A small Swift/T demo application.
+
+Mochi runs a set of independent data files through a chain of
+Python transformations.  Each input file +data-NNN-000.txt+ is the
+head of a chain: step 1 produces +data-NNN-001.txt+ from it, step 2
+produces +data-NNN-002.txt+, and so on.  The chains are independent,
+so Swift/T runs them concurrently while keeping each chain in order.
+
+== Usage
+
+----
+./create-inputs.sh  3     # make 3 input chains
+./wf1-local.sh data 3     # run 3 transformation steps on each
+./reset-data.sh           # delete outputs, keep the inputs
+----
+
+The first argument to the workflow is the data directory, the second
+is the number of steps per chain.
+
+== Files
+
+=== Workflow
+
+wf1.swift::
+The workflow.  Globs the input files, then for each one applies
++transform()+ +steps+ times, threading each output into the next
+step.  +transform()+ calls +transforms.tf1()+ through
++python_persist()+ and registers the result with +emit()+.
+
+transforms.py::
+The Python leaf function.  +tf1(f_i, f_o)+ copies +f_i+ to +f_o+.
+Stands in for real work.
+
+=== Run scripts
+
+wf1-local.sh::
+Run +wf1.swift+ on the local machine.  Puts the in-tree
++swift-t-install+ first on +PATH+ and sets +PYTHONPATH+ to +$PWD+ so
++transforms.py+ is importable.
+
+wf1-aurora.sh::
+Run +wf1.swift+ on Aurora under PBS (+swift-t -m pbs+).  Sources
++settings-aurora.sh+.
+
+settings-aurora.sh::
+Aurora site settings: path to the Swift/T installation on +/lus/flare+,
+and the scheduler variables +PROJECT+, +QUEUE+, +WALLTIME+, +PROCS+,
++PPN+, and +TURBINE_DIRECTIVE+.  Edit to match your workload.
+
+=== Data management
+
+create-inputs.sh::
++create-inputs.sh N+ creates +N+ empty input files
++data/data-000-000.txt+ .. +data/data-(N-1)-000.txt+.
+
+reset-data.sh::
+Delete every generated file in +data/+, keeping the +-000+ inputs, so
+a run can be repeated from a clean state.
+
+data/::
+Input and output files.  Not tracked by git.
