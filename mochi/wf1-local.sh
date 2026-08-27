@@ -6,8 +6,7 @@
 THIS=${0:h:A}
 
 export PYTHONPATH=$PWD
-PATH=$THIS/swift-t-install/stc/bin:$PATH
 
 which swift-t
 
-swift-t wf1.swift ${*}
+swift-t $THIS/wf1.swift ${*}
