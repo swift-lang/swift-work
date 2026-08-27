@@ -12,7 +12,7 @@ so Swift/T runs them concurrently while keeping each chain in order.
 == Usage
 
 ----
-./create-inputs.sh  3     # make 3 input chains
+./create-inputs.sh   3    # make 3 input chains
 ./wf1-local.sh  data 3    # run 3 transformation steps on each
 ./wf1-aurora.sh data 3    # run 3 transformation steps on each
 ./reset-data.sh           # delete outputs, keep the inputs
