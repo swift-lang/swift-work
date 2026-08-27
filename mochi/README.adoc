@@ -62,3 +62,7 @@ a run can be repeated from a clean state.
 
 data/::
 Input and output files.  Not tracked by git.
+
+== Mochi ideas
+
+The idea is that everything in the data directory can be accelerated by Mochi somehow.  We have a potentially large collection of files that are being written and read back by a subsequent step.  We need a fast cache and also the ability to flush everything to persistent storage efficiently.
