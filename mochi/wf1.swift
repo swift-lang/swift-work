@@ -7,7 +7,7 @@ import sys;
 
 main(string data, int steps)
 {
-  pattern = data + "/data-*-000.txt";
+  pattern = data/"data-*-000.txt";
   printf("glob: " + pattern);
   L = glob(pattern);
   printf("data count: %i", size(L));
