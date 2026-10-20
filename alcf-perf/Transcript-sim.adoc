@@ -1,0 +1,117 @@
+
+= sim.tcl: faster ready/events lookups
+
+2026-10-20
+
+== Request
+
+Speed up `sim.tcl`'s lookups into the `ready` list, suggested
+implementation: a heap.
+
+== Problem
+
+`sim.tcl` discrete-event simulates the `search.swift` workload by
+intercepting `evaluate.tcl`'s `[ after $delay ]` calls.  Two lists
+drove the main loop:
+
+* `ready`: tasks waiting to start, as `{ready_time i c}` triples.
+* `events`: tasks in flight, as `{end_time i children}` triples.
+
+Both were plain Tcl lists.  Finding the right entry meant an O(n)
+scan (`ready`), or an O(n) scan plus an O(n) `lreplace` splice
+(`ready`'s removal), repeated once per task start/finish.  With
+`-workers` large (effectively unlimited) and `-m` pushing the task
+count into the thousands, this made the simulation itself the
+bottleneck it was meant to avoid.
+
+== `ready`: queue, not heap
+
+A heap was the obvious fix, but turned out to be the wrong one.
+
+Every entry pushed onto `ready` gets `ready_time` set to the
+simulation clock `now` at the moment it's created: the root is
+`{0.0 1 0}`, and a finishing task's children are pushed with
+`$now` (the instant their parent retired).  Since `now` only moves
+forward, `ready` is already non-decreasing in `ready_time` by
+construction -- there is no actual "find the minimum" problem to
+solve, only the cost of the scan and the splice.
+
+A time-keyed heap "solves" that cost, but changes behavior: when
+several tasks become ready at the same instant (e.g. one task
+releasing several children at once), a heap does not guarantee it
+pops them back out in the order they went in.  `evaluate.tcl` draws
+from the shared RNG (`rand()`) once per task, so popping same-instant
+tasks in a different relative order changes which random draws land
+on which task, which changes the simulated run for a given `-seed`.
+This was caught empirically: an early heap-based version produced a
+`sim.data` that differed from the original on a simple `-m 3` case,
+traced to exactly this reordering.
+
+Fix: replace `ready` with a FIFO queue -- a list plus a read-pointer
+(`Qhead`), appending at the tail and advancing the pointer on pop,
+periodically compacting the consumed prefix so the list doesn't grow
+without bound. Since the list is already time-sorted, a FIFO queue
+*is* the time-ordered structure here, with O(1) amortized push/pop
+and no reordering of same-instant ties.
+
+`min_ready_time` (next ready time strictly after `now`, needed when
+a `-workers` cap leaves some ready tasks un-started) becomes a scan
+from the read pointer that stops at the first entry past `now`,
+relying on the same sortedness.
+
+== `events`: heap, for real this time
+
+`events` has no such shortcut. Each task's duration is an
+independent `rand()` draw (`evaluate.tcl:17`,
+`round(rand() * 20 * 1000)`), so end times are *not* monotonic with
+start order -- a task started later can finish before one started
+earlier. The main loop needs the minimum end time every iteration,
+and historically also rebuilt the list on every retirement
+(`lreplace`-equivalent via list comprehension). This list is the one
+that actually grows into the thousands under large `-workers`, and
+it was rescanned from scratch each iteration: the real O(n) (in
+practice closer to O(n^2) over a run) cost.
+
+Fix: a genuine binary min-heap, keyed on `(end_time, seq)` where
+`seq` is a strictly increasing insertion counter. `seq` exists only
+to break exact `end_time` ties in original start order, for the same
+RNG-reproducibility reason `ready` could not just be heapified
+naively: without it, two tasks that happen to finish at the identical
+instant could hand their children to `ready` in a different order
+than before, again perturbing which `rand()` draw lands where for a
+given `-seed`.
+
+== Verification
+
+Before/after `.data` output and summary stats (`TASKS`, `MAKESPAN`,
+`PEAK`, `MEAN`) were diffed byte-for-byte between the original
+`sim.tcl` and the rewritten version:
+
+* `-m 3 -workers 0` (unlimited workers): identical.
+* `-m 3 -workers 4` (capped, exercises the `min_ready_time` /
+  capacity-blocked path): identical.
+* `-m 8 -workers 10000`: identical.
+
+== Timing
+
+Run with `-workers 10000`, capped with `timeout 60`:
+
+[cols="1,1,1,1,1"]
+|===
+|m |tasks |peak concurrent |old (lists) |new (heaps/queue)
+
+|8  |6,435  |1,621 |14.27s |0.64s
+|9  |24,310 |5,162 |>60s (timeout) |2.40s
+|10 |~92k+  |--    |not attempted |>60s (timeout)
+|===
+
+`m=10` overruns 60s for the new version too: task count grows
+combinatorially with `m`, so there is no intermediate integer size
+landing in the 10-20s range -- `m=9` (2.4s) is the largest case that
+still completes quickly.
+
+An intermediate heap-only-on-`ready` version was also measured, at
+`m=8`: 14.63s, i.e. no improvement over the original. This confirmed
+`ready` was not the actual bottleneck at scale -- `events` was -- and
+motivated heapifying `events` as well rather than stopping at the
+originally-requested change.
