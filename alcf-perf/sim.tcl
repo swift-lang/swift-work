@@ -48,6 +48,29 @@ source $THIS/evaluate.tcl
 
 # ------------------------------------------------------------ arguments
 
+proc usage { } {
+  puts "Usage:"
+  puts "  tclsh sim.tcl \[-m M\] \[-workers N\] \[-seed S\] \[-o FILE\]"
+  puts "                \[-progress N\]"
+  puts ""
+  puts "  -m        recursion/fanout limit, as passed to search.swift"
+  puts "            (default 3)"
+  puts "  -workers  concurrent tasks allowed; 0 means unlimited,"
+  puts "            which shows the parallelism the workflow itself"
+  puts "            offers (default 0)"
+  puts "  -seed     RNG seed, for a reproducible run (default 1)"
+  puts "  -o        output data file (default sim.data)"
+  puts "  -progress report progress every N completed tasks; 0 to"
+  puts "            disable (default 1000).  Goes to stderr, so"
+  puts "            stdout stays clean."
+  puts "  -h        print this help and exit"
+}
+
+if { "-h" in $argv || "--help" in $argv } {
+  usage
+  exit 0
+}
+
 array set opt { -m 3 -workers 0 -seed 1 -o sim.data -progress 1000 }
 
 for { set i 0 } { $i < [ llength $argv ] } { incr i 2 } {
