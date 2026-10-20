@@ -1,0 +1,4 @@
+#!/bin/sh
+# ADLB TIME SH
+# Just run the awk program
+awk -f ./adlb-time.awk < $1

@@ -15,7 +15,7 @@ export PPN=$2
 export TURBINE_OUTPUT_ROOT=$3
 WORKFLOW=$4
 shift 4
-A=( ${*} )
+ARGUMENTS=( ${*} )
 
 # See https://docs.alcf.anl.gov/aurora/running-jobs-aurora/#submitting-a-job
 export TURBINE_DIRECTIVE="#PBS -l filesystems=home:flare"
@@ -28,7 +28,9 @@ export ADLB_PRINT_TIME=1 ADLB_DISABLE_HOSTMAP=1
 # Disable hostmap 2025-06-06 11:00
 
 # SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2025-10-31-perf
-SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2026-06-09
+# SWIFT=/lus/flare/projects/workflow_scaling/sfw/swift-t/2026-06-09
+# SWIFT=/lus/flare/projects/IMPECCAFLOW/sfw/swift-t/2026-10-09-nperf
+SWIFT=/lus/flare/projects/IMPECCAFLOW/sfw/swift-t/2026-10-20-nperf
 PATH=$SWIFT/stc/bin:$PATH
 
 export LD_LIBRARY_PATH=/lus/flare/projects/candle_aesp_CNDA/sfw/aurora/tcl-8.6.13/lib:${LD_LIBRARY_PATH:-}
@@ -42,4 +44,9 @@ export SWIFT_PATH=$THIS
 set -x
 # log-path LD_LIBRARY_PATH
 which swift-t
-swift-t -u -m pbs -n $PROCS -e TURBINE_APP_DEBUG=1 $WORKFLOW ${A[@]}
+# -e TURBINE_APP_DEBUG=1
+ENVS=(
+  -e ADLB_SERVER_PROFILE=1
+  -e TURBINE_CACHE_SIZE=1024
+)
+swift-t -u -m pbs -n $PROCS ${ENVS[@]} $WORKFLOW ${ARGUMENTS[@]}

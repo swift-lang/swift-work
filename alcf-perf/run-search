@@ -2,12 +2,12 @@
 set -eu
 
 # RUN
-# For the workflow flat.swift
+# For the workflow search.swift
 
 THIS=${0:A:h}
 
-if (( ${#*} < 3 )) {
-  echo "run-flat: provide PROCS PPN OUTPUT N"
+if (( ${#*} < 4 )) {
+  echo "run-search: provide PROCS PPN OUTPUT N"
   exit 1
 }
 PROCS=$1
@@ -17,7 +17,7 @@ N=$4
 
 export ADLB_SERVERS=${ADLB_SERVERS:-1}
 
-A=( -m=$N )
+A=( -m=$N  ) # $[ $N / 2 ]
 
 print "N:" $N
 
